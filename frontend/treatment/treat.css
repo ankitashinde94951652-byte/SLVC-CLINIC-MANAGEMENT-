@@ -1,0 +1,281 @@
+:root {
+  --primary: #221d79;
+  --light-bg: #f5f6ff;
+  --white: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  color: #333;
+  line-height: 1.7;
+
+  background-image: url('background.jpg');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 8, 83, 0.6);
+  z-index: -1;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #c1e3e8;
+  padding: 8px;
+  text-align: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.logo1, .logo2 {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+}
+
+.logo1 { background-image: url("SLVC-logo.png"); }
+.logo2 { background-image: url("drsagarsatpute.jpg"); }
+
+.text-box h1 { color: var(--primary); font-size: 1.6rem; }
+.text-box h3,
+.text-box h4,
+.text-box p { font-size: 0.9rem; }
+
+
+/* Menu Icon */
+.menu-icon {
+    position: absolute;
+    top: 140px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Hidden menu bar */
+.top-right-menu {
+    display: none;
+    position: absolute;
+    top: 55px;
+    right: 20px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+}
+
+.top-right-menu a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    gap: 8px;
+}
+
+.top-right-menu img {
+    width: 25px;
+    height: 25px;
+}
+/* ================= HERO ================= */
+
+.circle-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  font-size: 11px;
+  line-height: 1.1;
+  margin: 40px auto;
+}
+
+.circle-container p,
+.circle-container a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.item {
+  position: absolute;
+  width: 100px;
+  text-align: center;
+}
+
+.item img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.center img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  body {
+    background-position: center top;
+    background-size: cover;
+    background-attachment: scroll;
+  }
+
+  .navbar {
+    flex-direction: column;
+    padding: 12px;
+    gap: 6px;
+  }
+
+  .logo1, .logo2 {
+    width: 70px;
+    height: 70px;
+  }
+
+  .text-box h1 { font-size: 1.25rem; }
+  .text-box h3,
+  .text-box h4,
+  .text-box p { font-size: 0.8rem; }
+
+  
+  .menu-icon {
+    right: 15px;
+    top: 8px;
+    font-size: 18px;
+  }
+
+  .top-right-menu {
+    right: 15px;
+    width: 200px;
+  }
+  .circle-container {
+    width: 100%;
+    height: auto;
+    margin: 20px auto;
+    padding: 10px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+
+    justify-items: center;
+    align-items: center;
+  }
+
+  .item {
+    position: static;
+    transform: none;
+    width: 100%;
+    text-align: center;
+    margin-left: -50px;
+  }
+  .center {
+    position: static;
+    transform: none;
+    width: 100%;
+    margin-left: 160px;
+    text-align: center;
+  }
+
+  .item img{
+    width: 70px;
+    height: 70px;
+  }
+
+  .center img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* ================= SMALL PHONES ================= */
+
+@media (max-width: 480px) {
+
+  .circle-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .item img,
+  .center img {
+    width: 65px;
+    height: 65px;
+  }
+
+  .menu-icon {
+    right: 15px;
+    top: 8px;
+    font-size: 18px;
+  }
+
+  .top-right-menu {
+    right: 15px;
+    width: 200px;
+  }
+}
+
+/* ================= EXTRA SMALL PHONES ================= */
+
+@media (max-width: 430px) {
+
+  .navbar {
+    padding: 10px;
+  }
+
+  .circle-container {
+    width: 100%;
+    padding: 10px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .menu-icon {
+    right: 15px;
+    top: 8px;
+    font-size: 18px;
+  }
+
+  .top-right-menu {
+    right: 15px;
+    width: 200px;
+  }
+}

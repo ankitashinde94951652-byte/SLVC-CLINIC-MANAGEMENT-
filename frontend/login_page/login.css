@@ -1,0 +1,152 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Full screen center */
+body {
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f4ff;
+}
+
+/* Login card */
+.login-container {
+  width: 90%;
+  max-width: 360px;
+  padding: 20px;
+  background-color: #193388;
+  border: 1px solid rgb(139, 163, 210);
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgb(139, 163, 210);
+  text-align: center;
+}
+
+/* Headings */
+h1, h2 {
+  color: #faf8f8;
+  margin-bottom: 10px;
+}
+
+/* Logo */
+.logo {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  border-radius: 50%;
+  background-color: rgb(13, 5, 103);
+  margin: 10px auto 15px;
+  display: block;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"],
+input[type="tel"],
+input[type="email"]
+ {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #f7e8c0;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Button */
+input[type="submit"] {
+  width: 100%;
+  height: 40px;
+  background-color: #4CAF50;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Button hover (desktop only) */
+input[type="submit"]:hover {
+  background-color: #43a047;
+}
+
+/* Small screens */
+@media (max-width: 400px) {
+  .logo {
+    width: 110px;
+    height: 110px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+}
+
+
+.switch-text{
+margin-top:15px;
+font-size:14px;
+}
+
+.switch-text a{
+color:#007bff;
+text-decoration:none;
+font-weight:bold;
+}
+
+.switch-text a:hover{
+text-decoration:underline;
+}
+
+.roleBox{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+}
+
+.role{
+flex:1;
+padding:10px;
+border:none;
+border-radius:6px;
+background:#eee;
+cursor:pointer;
+font-weight:bold;
+}
+
+.role.active{
+background:#4CAF50;
+color:white;
+}
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+}
+.role.active{
+  background:#2c7be5;
+  color:white;
+}

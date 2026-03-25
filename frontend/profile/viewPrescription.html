@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Prescriptions</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+<h2>Prescriptions</h2>
+<div id="list"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+<div class="modalContent">
+
+<span onclick="closeModal()" class="close">✖</span>
+
+<h3 id="m_name"></h3>
+
+<p><b>Doctor:</b> <span id="m_doc"></span></p>
+<p><b>Diagnosis:</b> <span id="m_diag"></span></p>
+<p><b>Date:</b> <span id="m_date"></span></p>
+
+<img id="m_img" width="100%">
+
+</div>
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+const user = JSON.parse(localStorage.getItem("user"));
+const isDoctor = user && user.role === "doctor";
+
+if(!id){
+alert("Patient ID missing");
+}
+
+async function load(){
+
+const res = await fetch("http://10.0.2.2:5000/api/prescriptions/patient/"+id);
+const result = await res.json();
+
+const data = result.data || [];
+
+const list=document.getElementById("list");
+list.innerHTML="";
+
+if(data.length===0){
+list.innerHTML="<p>No prescriptions found</p>";
+return;
+}
+
+data.forEach(p=>{
+
+const div=document.createElement("div");
+div.className="card";
+
+div.innerHTML=`
+<b>${p.patient_name}</b><br>
+${p.diagnosis}<br>
+${p.date}<br>
+
+${p.image ? `<img src="http://10.0.2.2:5000${p.image}" width="100%">` : ``}
+
+<br><br>
+
+<button onclick="openModal('${p.patient_name}','${p.doctor}','${p.diagnosis}','${p.date}','${p.image}')">
+View
+</button>
+
+${isDoctor ? `<button onclick="deletePrescription(${p.id})">Delete</button>` : ``}
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+function openModal(name,doc,diag,date,img){
+
+document.getElementById("modal").style.display="block";
+
+document.getElementById("m_name").innerText=name;
+document.getElementById("m_doc").innerText=doc;
+document.getElementById("m_diag").innerText=diag;
+document.getElementById("m_date").innerText=date;
+
+const imgTag=document.getElementById("m_img");
+
+if(img){
+imgTag.src="http://10.0.2.2:5000"+img;
+imgTag.style.display="block";
+}else{
+imgTag.style.display="none";
+}
+
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+async function deletePrescription(pid){
+
+const token = localStorage.getItem("token");
+
+if(!confirm("Delete this prescription?")) return;
+
+await fetch("http://10.0.2.2:5000/api/prescriptions/"+pid,{
+method:"DELETE",
+headers:{
+Authorization:"Bearer "+token
+}
+});
+
+alert("Prescription Deleted");
+
+load();
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>

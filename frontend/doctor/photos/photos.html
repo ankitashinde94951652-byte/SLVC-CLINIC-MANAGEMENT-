@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Patient Before & After - Photos</title>
+
+<style>
+
+:root{
+--primary:#221d79;
+--accent: rgb(193,227,232);
+--bg: #ffffff;
+}
+
+html,body{
+height:100%;
+margin:0;
+background:var(--bg);
+font-family: Arial;
+color:var(--primary);
+}
+
+header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:14px 18px;
+background:var(--primary);
+color:#fff;
+}
+
+header h1{
+font-size:18px;
+margin:0
+}
+
+.container{
+padding:18px;
+max-width:1100px;
+margin:auto;
+}
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px;
+}
+
+.patient-card{
+background:#fff;
+border-radius:12px;
+border:2px solid var(--primary);
+padding:12px;
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.patient-images{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.patient-images img{
+width:100%;
+height:150px;
+object-fit:cover;
+border-radius:8px;
+border:2px solid var(--primary);
+}
+
+.info strong{
+display:block;
+font-size:15px;
+}
+
+.card-footer{
+display:flex;
+gap:8px;
+margin-top:6px;
+}
+
+.delete-btn{
+flex:1;
+background:#e74c3c;
+color:white;
+border:none;
+padding:8px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.pagination{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:12px;
+margin-top:18px;
+}
+
+.page-btn{
+background:var(--accent);
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+}
+
+@media(max-width:900px){
+.gallery{grid-template-columns:1fr;}
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>Patient Before & After</h1>
+
+<button class="doctor-only" onclick="location.href='add.html'">
++ Add New
+</button>
+
+</header>
+
+<div class="container">
+
+<div id="gallery" class="gallery"></div>
+
+<div class="pagination">
+
+<button id="prevBtn" class="page-btn">Previous</button>
+
+<div id="pageInfo"></div>
+
+<button id="nextBtn" class="page-btn">Next</button>
+
+</div>
+
+</div>
+
+<script>
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+alert("Please login first");
+window.location.href="../login/login.html";
+}
+
+const isDoctor = user.role === "doctor";
+
+/* hide add button for patient */
+
+if(!isDoctor){
+document.querySelectorAll(".doctor-only").forEach(btn=>{
+btn.style.display="none";
+});
+}
+
+const API = "http://10.0.2.2:5000/api/photos";
+
+const PER_PAGE = 4;
+
+let currentPage = 1;
+let patients = [];
+
+async function fetchPatients(){
+
+const res = await fetch(API);
+
+patients = await res.json();
+
+render();
+
+}
+
+function render(){
+
+const gallery = document.getElementById("gallery");
+const pageInfo = document.getElementById("pageInfo");
+
+const totalPages = Math.max(1, Math.ceil(patients.length / PER_PAGE));
+
+const start = (currentPage-1) * PER_PAGE;
+
+const pageItems = patients.slice(start,start+PER_PAGE);
+
+gallery.innerHTML="";
+
+pageItems.forEach(patient=>{
+
+const card=document.createElement("div");
+
+card.className="patient-card";
+
+card.innerHTML=`
+
+<div class="patient-images">
+
+<img src="${patient.before_photo}" alt="Before">
+
+<img src="${patient.after_photo}" alt="After">
+
+</div>
+
+<div class="info">
+
+<strong>${patient.ptname}</strong>
+
+<div>${patient.problem}</div>
+
+</div>
+
+${isDoctor ? `
+<div class="card-footer">
+<button class="delete-btn" onclick="deletePatient(${patient.id})">
+Delete
+</button>
+</div>
+` : ``}
+
+`;
+
+gallery.appendChild(card);
+
+});
+
+pageInfo.innerText=`Page ${currentPage} of ${totalPages}`;
+
+document.getElementById("prevBtn").disabled=currentPage===1;
+document.getElementById("nextBtn").disabled=currentPage===totalPages;
+
+}
+
+async function deletePatient(id){
+
+if(!confirm("Delete this patient?")) return;
+
+await fetch(API+"/"+id,{
+method:"DELETE"
+});
+
+fetchPatients();
+
+}
+
+document.getElementById("prevBtn").onclick=()=>{
+
+if(currentPage>1){
+
+currentPage--;
+
+render();
+
+}
+
+};
+
+document.getElementById("nextBtn").onclick=()=>{
+
+const totalPages=Math.ceil(patients.length/PER_PAGE);
+
+if(currentPage<totalPages){
+
+currentPage++;
+
+render();
+
+}
+
+};
+
+fetchPatients();
+
+</script>
+
+</body>
+</html>

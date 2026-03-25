@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration Page</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #e6ecff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-container {
+    background-color: #1a2b7a;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    color: #fff;
+    width: 350px;
+  }
+
+  .login-container img {
+    width: 100px;
+    margin-bottom: 15px;
+  }
+
+  .login-container h1, .login-container h2 {
+    margin: 5px 0;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+  }
+
+  select {
+    background-color: #fff;
+    color: #000;
+  }
+
+  .password-container {
+    position: relative;
+  }
+
+  .password-container .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    cursor: pointer;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: #3e9b39;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background-color: #3eab2d;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="login-container">
+  <h1>WELCOME TO</h1>
+  <img src="/SLVC-logo.png" alt="SLVC Logo">
+  <h2>Register Here</h2>
+
+  <form id="registerForm">
+    <input type="text" id="username" name="name" placeholder="Full Name" required>
+    <input type="email" id="email" name="email" placeholder="Email" required>
+    <input type="text" id="phone" name="phone" placeholder="Phone" required>
+
+    <div class="password-container">
+      <input type="password" id="password" placeholder="Password" required>
+      <span id="togglePassword" class="eye-icon">👁️</span>
+    </div>
+
+    <select id="role" name="role" required>
+      <option value="">Select Role</option>
+      <option value="doctor">Doctor</option>
+      <option value="patient">Patient</option>
+    </select>
+
+    <button type="submit">Register</button>
+  </form>
+</div>
+
+<script>
+  // Password toggle
+  const togglePassword = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("password");
+
+  togglePassword.addEventListener("click", () => {
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+  });
+
+  // Form submission
+  document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = {
+      username: document.getElementById("username").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      password: document.getElementById("password").value,
+      role: document.getElementById("role").value
+    };
+
+    try {
+      const res = await fetch("http://10.0.2.2:5000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+
+      // Show backend message
+      alert(result.message);
+
+      if (result.success) {
+        window.location.href = "../HOME/index.html"; // redirect on success
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("Server error. Make sure backend is running!");
+    }
+  });
+</script>
+
+</body>
+</html>

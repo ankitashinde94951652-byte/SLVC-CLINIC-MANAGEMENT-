@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Prescription Details</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Prescription Details</h2>
+
+<h3 id="pname"></h3>
+
+<p id="doctor"></p>
+
+<p id="diagnosis"></p>
+
+<p id="date"></p>
+
+<img id="img" width="100%">
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const pid = params.get("pid");
+const ptid = params.get("id");
+
+async function load(){
+
+const res = await fetch("http://10.0.2.2:5000/api/prescriptions/patient/"+ptid);
+
+const result = await res.json();
+
+const data = result.data || [];
+
+const p = data.find(x=>x.id==pid);
+
+if(!p){
+alert("Prescription not found");
+return;
+}
+
+document.getElementById("pname").innerText=p.patient_name;
+document.getElementById("doctor").innerText="Doctor : "+p.doctor;
+document.getElementById("diagnosis").innerText=p.diagnosis;
+document.getElementById("date").innerText=p.date;
+
+if(p.image){
+document.getElementById("img").src="http://10.0.2.2:5000"+p.image;
+}
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>

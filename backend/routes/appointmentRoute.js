@@ -1,0 +1,46 @@
+const express = require("express");
+const router = express.Router();
+
+const {
+  createAppointment,
+  getAllAppointments,
+  getTodayAppointments,
+  updateAppointmentStatus,
+  deleteAppointment,
+  getAvailableSlots,
+  getByPatient,
+  getPatientHistory,
+  updateQueueStatus
+} = require("../controllers/appointmentController");
+
+const { protect, role } = require("../middleware/authMiddleware");
+
+
+// CREATE APPOINTMENT
+router.post("/", createAppointment);
+
+// GET ALL
+router.get("/", getAllAppointments);
+
+// TODAY APPOINTMENTS
+router.get("/today", protect, getTodayAppointments);
+
+// AVAILABLE SLOTS
+router.get("/slots", getAvailableSlots);
+
+// PATIENT APPOINTMENTS
+router.get("/patient/:patientId", protect, getByPatient);
+
+// PATIENT HISTORY
+router.get("/history/:id", protect, getPatientHistory);
+
+// UPDATE STATUS
+router.put("/status/:id", protect, updateAppointmentStatus);
+
+// UPDATE QUEUE
+router.put("/queue/:id", protect, updateQueueStatus);
+
+// DELETE APPOINTMENT (KEEP LAST)
+router.delete("/:id", protect, role("admin"), deleteAppointment);
+
+module.exports = router;

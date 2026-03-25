@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Confirmation</title>
+    <style>
+        body{
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(222, 236, 248);
+        }
+        .message-box{
+            border: 4px solid #2a2a2a;
+            padding: 20px;
+            width: 500px;
+            width: 50%;
+            background-color: rgb(231, 248, 249);
+            color: rgb(15, 2, 76);
+            border-radius: 15px;
+            text-align: center;
+        }
+        .message-box .checkmark{
+            font-size: 50px;
+            color: #429945;
+            margin-bottom: 10px;
+        }
+        .message-box p{
+            margin: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        .message-box .smiley{
+            font-size: 50px;
+            color: #FFA500;
+            margin-top: 10px;
+        }
+
+        /* cover mobile size*/
+        @media (max-width : 600px) {
+            .message-box {
+            font-size: 20px;
+        }
+        .message-box .checkmark {
+            font-size: 40px;
+        }
+        .message-box p {
+            font-size: 15px;
+        }
+        .message-box .smiley {
+            font-size: 30px;
+        }
+    }
+    </style>
+    
+   
+</head>
+<body>
+    <div class="message-box">
+        <div class="checkmark">&#10004;</div>
+
+        <p>
+    Dear <span id="userName"></span>, kindly confirm your appointment. Once the doctor confirms availability, we will schedule accordingly and give you a call to share the exact time. Thank you for your trust and patience.
+        </p>
+
+        <div class="smiley">&#128522;</div>
+    </div>
+
+
+<script>
+  const name = localStorage.getItem("patientName");
+  document.getElementById("userName").textContent = name || "Patient";
+</script>
+
+
+</body>
+
+
+
+
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Surgeries</title>
+<link rel="stylesheet" href="surgery.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+<img src="SLVC-logo.png" class="logo">
+<a href="surgery.html" class="add-btn" onclick="addSurgery()">+ Add Surgery</a>
+</nav>
+
+<div class="wrapper">
+<h2>🏥 All Surgeries</h2>
+<div id="surgeryList"></div>
+</div>
+
+<script>
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user || user.role!=="doctor"){
+
+alert("Doctor access only");
+
+window.location.href="../HOME/index.html";
+
+}
+
+
+const STORAGE_KEY="surgeries";
+
+function addSurgery(){
+
+localStorage.removeItem("editSurgeryIndex");
+localStorage.removeItem("viewSurgeryIndex");
+
+}
+
+function renderSurgeries(){
+
+const surgeryList=document.getElementById("surgeryList");
+
+let surgeries=JSON.parse(localStorage.getItem(STORAGE_KEY))||[];
+
+if(surgeries.length===0){
+
+surgeryList.innerHTML="<p>No surgeries added</p>";
+return;
+
+}
+
+surgeryList.innerHTML="";
+
+surgeries.forEach((s,index)=>{
+
+surgeryList.innerHTML+=`
+
+<div class="card">
+
+<p><b>Surgery:</b> ${s.name}</p>
+<p><b>Patient:</b> ${s.patient}</p>
+<p><b>Date:</b> ${s.date}</p>
+<p><b>Hospital:</b> ${s.hospital}</p>
+<p><b>Note:</b> ${s.note}</p>
+
+<div class="card-btns">
+
+<button class="edit-btn" onclick="viewSurgery(${index})">View</button>
+
+<button class="edit-btn" onclick="editSurgery(${index})">Edit</button>
+
+<button class="delete-btn" onclick="deleteSurgery(${index})">Delete</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+function viewSurgery(index){
+
+localStorage.setItem("viewSurgeryIndex",index);
+localStorage.removeItem("editSurgeryIndex");
+
+window.location.href="surgery.html";
+
+}
+
+function editSurgery(index){
+
+localStorage.setItem("editSurgeryIndex",index);
+localStorage.removeItem("viewSurgeryIndex");
+
+window.location.href="surgery.html";
+
+}
+
+function deleteSurgery(index){
+
+if(confirm("Delete surgery?")){
+
+let surgeries=JSON.parse(localStorage.getItem(STORAGE_KEY))||[];
+
+surgeries.splice(index,1);
+
+localStorage.setItem(STORAGE_KEY,JSON.stringify(surgeries));
+
+renderSurgeries();
+
+}
+
+}
+
+document.addEventListener("DOMContentLoaded",renderSurgeries);
+
+</script>
+
+</body>
+</html>

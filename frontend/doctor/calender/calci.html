@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Appointment Calendar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:flex-start;
+padding:10px;
+color:white;
+}
+
+/* calendar container */
+
+.calendar-box{
+width:100%;
+max-width:400px;
+background:rgba(0,0,0,0.35);
+padding:15px;
+border-radius:12px;
+}
+
+/* header */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.header h2{
+font-size:18px;
+text-align:center;
+flex:1;
+}
+
+.header button{
+background:#00bcd4;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+font-size:14px;
+cursor:pointer;
+}
+
+/* calendar grid */
+
+.calendar{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:5px;
+}
+
+/* days */
+
+.day{
+background:#e3f2fd;
+color:#0d47a1;
+padding:8px 0;
+text-align:center;
+border-radius:6px;
+font-size:13px;
+font-weight:bold;
+cursor:pointer;
+position:relative;
+}
+
+/* hover */
+
+.day:hover{
+background:#bbdefb;
+}
+
+/* red dot */
+
+.dot{
+width:6px;
+height:6px;
+background:red;
+border-radius:50%;
+position:absolute;
+bottom:3px;
+left:50%;
+transform:translateX(-50%);
+}
+
+/* details */
+
+.details{
+margin-top:12px;
+background:rgba(0,0,0,0.4);
+padding:10px;
+border-radius:8px;
+font-size:13px;
+}
+
+#appointments{
+font-size:13px;
+}
+
+/* very small phones */
+
+@media(max-width:320px){
+
+.day{
+font-size:11px;
+padding:6px 0;
+}
+
+.header h2{
+font-size:16px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="calendar-box">
+
+<div class="header">
+<button onclick="prevMonth()">◀</button>
+<h2 id="monthName"></h2>
+<button onclick="nextMonth()">▶</button>
+</div>
+
+<div class="calendar" id="calendar"></div>
+
+<div class="details">
+<h3 id="selectedDate">Select Date</h3>
+<div id="appointments"></div>
+</div>
+
+</div>
+
+<script src="calci.js"></script>
+
+</body>
+</html>

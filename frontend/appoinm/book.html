@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SLVC Book Appointment</title>
+  <link rel="stylesheet" href="book.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+     <header>
+    <div class="navbar">
+      <div class="nav-logo">
+        <div class="logo1"></div>
+      </div>
+      <div class="text-box">
+        <h1>Dr. Sagar Satpute</h1>
+        <h3>M.B.B.S. M.D. F.V.I.R. (Mumbai)</h3>
+        <h3>Interventional Radiologist</h3>
+        <h4>Endovascular and Varicose Vein Specialist in Navi Mumbai</h4>
+      </div>
+      <div class="nav-logo">
+        <div class="logo2"></div>
+      </div>
+    </div>
+
+       <!-- Menu Icon -->
+<div class="menu-icon" onclick="toggleMenu()">
+   <i class="fas fa-bars"></i>
+</div>
+
+<!-- Hidden Menu  bar -->
+<div class="top-right-menu" id="menu">
+    <a href="..//HOME/index.html"><img src="home-icon.png" alt="Home"><span>Home</span></a>
+    <a href="..//SIRINFO/doctor.html"><img src="doctor-icon.png" alt="Doctor"><span>Doctor</span></a>
+    <a href="/treatment/treat.html"><img src="treatment-icon.png" alt="Treatments"><span>Treatments</span></a>
+    <a href="..//PHOTOS/photos.html"><img src="photos-icon.png" alt="Photos"><span>Photos</span></a>
+    <a href="..//STORIES/stories.html"><img src="stories-icon.png" alt="Stories"><span>Stories</span></a>
+    <a href="https://www.instagram.com/slvcclinic/"><img src="instagram-icon.png" alt="instagram"><span>Instagram</span></a>
+    <a href="http://www.youtube.com/@slvcclinic1376"><img src="youtube-icon.png" alt="Youtube"><span>Youtube</span></a>
+
+    <a href="..//appoinm/book.html"><img src="appointment-icon.png" alt="Appointment"><span>Appointment</span></a>
+
+    <a href="https://www.google.com/search?sca_esv=6a1c095ed36ff2a1&biw=1536&bih=730&sxsrf=AE3TifM-Qrz0Uzz_gGj-b6uNlx8jFY3otg:1758292490226&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-EzGNHEvpMjzztgWC3P6mO2P5PTzQUxOZg0wlPJwsOZ0ZnVPJdGro9OoR0DM1YaUV-w3FjWBUSrQP3gwGtgePfNfJLpyeGB5nX7weyQ8OKHmg7omf0SLCciqxqGqo7Ylh--g-fQdG9AbRXxvpIzMX6NgcO_3edecdIkGxWkWZf-ed1EmBalIN-ONe_riXwaG-gtkVdBjsdyExRk9nUdiq-73wn6VfSFU6h9HgfOjRUeIlrxdqDw%3D%3D&q=Dr.+Sagar+Satpute+Limb+and+Vessel+Care+Clinic+-+Vascular+Specialist+in+Navi+Mumbai+-+DVT,+Leg+Gangrene,+Varicose+Vein+Doctor+Reviews&sa=X&ved=2ahUKEwj586n6heWPAxWmyqACHRH9L9UQ0bkNegQIJxAE"><img src="review-icon.png" alt="Review"><span>Review</span></a>
+
+    <a href="..//profile/profile.html"><img src="profile-icon.png" alt="Profile"><span>Profile</span></a>
+</div>
+
+  </header>
+  <!-- HEADER END -->
+</head>
+
+
+<body>
+<!-- slvc logo on the middle or top of the appoinment table-->
+   <div class="form-container">
+        <header class="form-header">
+            <img src="SLVC-logo.png" alt="SLVC Logo">
+            
+            <h2>Book Appointment</h2>
+        </header>
+
+        <form action="#" method="POST" class="appointment-form-grid">
+
+            <div class="form-column" id="personal-details-column">
+                <h3 class="form-section-title">Personal Details</h3>
+            
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile No:</label>
+                    <input type="tel" id="mobile" name="mobile" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address">
+                </div>
+            </div>
+
+            <div class="form-column" id="appointment-details-column">
+                <h3 class="form-section-title">Appointment Details</h3>
+            
+                <div class="form-group">
+                    <label>Appointment Type:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="opd" name="appointment_type" value="OPD" checked>
+                        <label for="opd">OPD (In-person)</label>
+                        <input type="radio" id="video" name="appointment_type" value="Video">
+                        <label for="video">Video Consultation</label>
+                    </div>
+                </div>
+
+                <div class="flex-group">
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+  <label for="slot">Evening Time Slot:</label>
+  <select id="slot" name="slot" required>
+    <option value="">Select Slot</option>
+  </select>
+</div>
+
+
+                </div>
+
+                <div class="form-group">
+                    <label for="reference">Reference :</label>
+                    <textarea id="reference" name="reference" rows="4"></textarea>
+                </div>
+
+<button type="button" class="submit-btn" onclick="confirmAppointment()">
+CONFIRM APPOINTMENT
+</button>
+            </div>
+
+            <!-- confirm.html -->
+
+
+    </div>
+
+  <script src="book.js"></script>
+</body>
+</html>

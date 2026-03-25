@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Add Story</title>
+  <link rel="stylesheet" href="story.css">
+  <style>
+    .note {font-size:13px;color:var(--muted);margin-top:8px}
+    .error {color:var(--danger);font-weight:600;margin-top:8px}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <h1>Add Story</h1>
+      <div class="controls">
+        <a href="../stories/stories.html" class="btn">← Back</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container narrow">
+    <form id="addForm" class="form-card" novalidate>
+      <label>Patient Name
+        <input id="name" type="text" required />
+      </label>
+
+      <label>Disease / Problem
+        <input id="disease" type="text" />
+      </label>
+
+      <label>Story / Blog (full text)
+        <textarea id="storyText" rows="6" placeholder="Write the patient story..."></textarea>
+      </label>
+
+      <label>Upload Photo or Video (max 500 KB)
+        <input id="media" type="file" accept="image/*,video/*" />
+      </label>
+
+      <label>Or paste a YouTube URL (optional)
+        <input id="youtubeUrl" type="text" placeholder="e.g. https://www.youtube.com/watch?v=VIDEOID" />
+      </label>
+
+      <div class="row" style="margin-top:8px">
+        <button class="btn primary" id="saveBtn" type="submit">Save Story</button>
+        <a class="btn" href="stories.html">Cancel</a>
+      </div>
+
+      <div id="msg" class="note" aria-live="polite"></div>
+      <div id="err" class="error" aria-live="assertive"></div>
+    </form>
+
+    <p class="hint">Tip: You can upload a single photo or a single video (max 500 KB), or paste a YouTube URL. If you prefer text-only, leave media empty.</p>
+  </main>
+
+<script>
+
+  //restrict for pt 
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user || user.role !== "doctor"){
+
+alert("Doctor only");
+
+window.location.href="stories.html";
+
+}
+
+
+
+document.getElementById("addForm").addEventListener("submit",async function(e){
+
+e.preventDefault();
+
+const btn=document.getElementById("saveBtn");
+btn.innerText="Saving...";
+btn.disabled=true;
+
+const formData=new FormData();
+
+formData.append("name",document.getElementById("name").value);
+formData.append("disease",document.getElementById("disease").value);
+formData.append("story_text",document.getElementById("storyText").value);
+
+const file=document.getElementById("media").files[0];
+if(file){
+formData.append("photo",file);
+}
+
+const youtube=document.getElementById("youtubeUrl").value;
+if(youtube){
+formData.append("youtube_url",youtube);
+}
+
+try{
+
+const res=await fetch("http://10.0.2.2:5000/api/stories/add",{
+method:"POST",
+body:formData
+});
+
+const data=await res.json();
+
+if(data.success){
+
+alert("Story saved");
+
+window.location.href="stories.html";
+
+}else{
+
+alert("Error saving");
+
+}
+
+}catch(err){
+
+console.log(err);
+alert("Server error");
+
+}
+
+btn.innerText="Save Story";
+btn.disabled=false;
+
+});
+
+</script>
+</body>
+</html>
