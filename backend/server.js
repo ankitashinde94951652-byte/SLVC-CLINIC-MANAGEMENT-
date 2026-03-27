@@ -27,7 +27,9 @@ app.get("/", (req, res) => res.send("SLVC Clinic Backend Running ✅"));
 app.get("/ping", (req, res) => res.send("SERVER OK"));
 
 // ================= API ROUTES =================
+// Note: Since we use "/api" here, the login route will be /api/login
 app.use("/api", authRoutes); 
+
 app.use("/api/appointments", require("./routes/appointmentRoute"));
 app.use("/api/patients", require("./routes/patientRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
@@ -65,13 +67,12 @@ app.use(errorMiddleware);
 // ================= START SERVER =================
 const PORT = process.env.PORT || 5000;
 
+// On Railway, PORT is assigned dynamically. 0.0.0.0 is required for external access.
 const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server is running!`);
   console.log(`🏠 Local: http://localhost:${PORT}`);
-  console.log(`🌐 Network: http://0.0.0.0:${PORT}`);
 });
 
-// Handle Port Errors
 server.on('error', (e) => {
   if (e.code === 'EADDRINUSE') {
     console.error(`❌ Port ${PORT} is already in use.`);

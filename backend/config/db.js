@@ -1,7 +1,7 @@
 const mysql = require("mysql2/promise");
 require("dotenv").config();
 
-// Railway provides MYSQL_URL which contains host, user, password, and db name in one string
+// Railway uses MYSQL_URL. If it's missing, it falls back to individual variables.
 const pool = mysql.createPool(process.env.MYSQL_URL || {
   host: process.env.DB_HOST || "127.0.0.1",
   user: process.env.DB_USER || "root",
