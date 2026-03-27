@@ -15,11 +15,9 @@ const { messages } = require('./services/messageTemplates');
 const app = express();
 
 // ================= MIDDLEWARE =================
-app.use(cors({
-  origin: '*', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+const cors = require('cors');
+app.use(cors()); // हे बॅकएंडला कोणत्याही फोनवरून येणाऱ्या रिक्वेस्ट स्वीकारण्याची परवानगी देते.
+
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
