@@ -64,7 +64,7 @@ async function confirmAppointment() {
     const time = slotTime.split(" - ")[0];
     const appointmentTime = date + " " + convertTo24Hour(time);
 
-    const response = await fetch("http://10.0.2.2:5000/api/appointments", {
+    const response = await fetch("https://slvc-clinic-management-production.up.railway.app/api/appointments", {
 
       method: "POST",
 

@@ -3,9 +3,9 @@ const router = express.Router();
 
 const {
   createAppointment,
-  getAllAppointments,
-  getTodayAppointments,
-  updateAppointmentStatus,
+  getAllappo,
+  getTodayappo,
+  updateappoStatus,
   deleteAppointment,
   getAvailableSlots,
   getByPatient,
@@ -20,10 +20,10 @@ const { protect, role } = require("../middleware/authMiddleware");
 router.post("/", createAppointment);
 
 // GET ALL
-router.get("/", getAllAppointments);
+router.get("/", getAllappo);
 
 // TODAY APPOINTMENTS
-router.get("/today", protect, getTodayAppointments);
+router.get("/today", protect, getTodayappo);
 
 // AVAILABLE SLOTS
 router.get("/slots", getAvailableSlots);
@@ -35,7 +35,7 @@ router.get("/patient/:patientId", protect, getByPatient);
 router.get("/history/:id", protect, getPatientHistory);
 
 // UPDATE STATUS
-router.put("/status/:id", protect, updateAppointmentStatus);
+router.put("/status/:id", protect, updateappoStatus);
 
 // UPDATE QUEUE
 router.put("/queue/:id", protect, updateQueueStatus);

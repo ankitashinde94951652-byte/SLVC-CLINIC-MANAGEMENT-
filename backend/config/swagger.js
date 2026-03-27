@@ -10,7 +10,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:5000",
+        url: "https://slvc-clinic-management-production.up.railway.app/api",
         description: "Local server"
       }
     ]

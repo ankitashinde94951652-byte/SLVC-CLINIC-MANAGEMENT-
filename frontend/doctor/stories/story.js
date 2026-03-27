@@ -51,7 +51,7 @@ async function loadStories(){
 
 try{
 
-const res=await fetch("http://10.0.2.2:5000/api/stories");
+const res=await fetch("https://slvc-clinic-management-production.up.railway.app/api/stories");
 
 const data=await res.json();
 
@@ -153,7 +153,7 @@ e.stopPropagation();
 
 if(!confirm("Delete story?")) return;
 
-await fetch(`http://10.0.2.2:5000/api/stories/${s.id}`,{
+await fetch(`https://slvc-clinic-management-production.up.railway.app/api/stories/${s.id}`,{
 method:"DELETE"
 });
 

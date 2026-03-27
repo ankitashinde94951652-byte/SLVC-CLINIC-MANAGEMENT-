@@ -44,7 +44,7 @@ alert("Patient ID missing");
 
 async function load(){
 
-const res = await fetch("http://10.0.2.2:5000/api/prescriptions/patient/"+id);
+const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/prescriptions/patient/"+id);
 const result = await res.json();
 
 const data = result.data || [];
@@ -67,7 +67,7 @@ div.innerHTML=`
 ${p.diagnosis}<br>
 ${p.date}<br>
 
-${p.image ? `<img src="http://10.0.2.2:5000${p.image}" width="100%">` : ``}
+${p.image ? `<img src="https://slvc-clinic-management-production.up.railway.app/api${p.image}" width="100%">` : ``}
 
 <br><br>
 
@@ -96,7 +96,7 @@ document.getElementById("m_date").innerText=date;
 const imgTag=document.getElementById("m_img");
 
 if(img){
-imgTag.src="http://10.0.2.2:5000"+img;
+imgTag.src="http://:5000"+img;
 imgTag.style.display="block";
 }else{
 imgTag.style.display="none";
@@ -114,7 +114,7 @@ const token = localStorage.getItem("token");
 
 if(!confirm("Delete this prescription?")) return;
 
-await fetch("http://10.0.2.2:5000/api/prescriptions/"+pid,{
+await fetch("https://slvc-clinic-management-production.up.railway.app/api/prescriptions/"+pid,{
 method:"DELETE",
 headers:{
 Authorization:"Bearer "+token

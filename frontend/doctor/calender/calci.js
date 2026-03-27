@@ -13,7 +13,7 @@ let appointmentData=[];
 // LOAD APPOINTMENTS
 async function loadAppointments(){
 
-const res=await fetch("http://10.0.2.2:5000/api/appointments");
+const res=await fetch("https://slvc-clinic-management-production.up.railway.app/api/appointments");
 const result=await res.json();
 
 appointmentData=result.data;

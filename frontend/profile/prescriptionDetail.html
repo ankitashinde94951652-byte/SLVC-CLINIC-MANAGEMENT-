@@ -33,7 +33,7 @@ const ptid = params.get("id");
 
 async function load(){
 
-const res = await fetch("http://10.0.2.2:5000/api/prescriptions/patient/"+ptid);
+const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/prescriptions/patient/"+ptid);
 
 const result = await res.json();
 
@@ -52,7 +52,7 @@ document.getElementById("diagnosis").innerText=p.diagnosis;
 document.getElementById("date").innerText=p.date;
 
 if(p.image){
-document.getElementById("img").src="http://10.0.2.2:5000"+p.image;
+document.getElementById("img").src="https://slvc-clinic-management-production.up.railway.app/api"+p.image;
 }
 
 }

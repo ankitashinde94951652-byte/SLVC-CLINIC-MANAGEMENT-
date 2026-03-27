@@ -9,7 +9,7 @@ const id = user.id;
 
 async function load() {
     try {
-        const res = await fetch("http://10.0.2.2:5000/api/patients/" + id);
+        const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/patients/" + id);
         const p = await res.json();
 
         // show data safely
@@ -22,7 +22,7 @@ async function load() {
 
         // set photo preview if exists
         if (p.photo) {
-            document.getElementById("photoFile").previousElementSibling?.setAttribute("src", "http://10.0.2.2:5000" + p.photo);
+            document.getElementById("photoFile").previousElementSibling?.setAttribute("src", "https://slvc-clinic-management-production.up.railway.app/api" + p.photo);
         }
 
     } catch (err) {
@@ -45,7 +45,7 @@ async function save() {
     const photo = document.getElementById("photoFile").files[0];
     if (photo) formData.append("photo", photo);
 
-    const res = await fetch("http://10.0.2.2:5000/api/patients/" + id, {
+    const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/patients/" + id, {
       method: "PUT",
       body: formData
     });

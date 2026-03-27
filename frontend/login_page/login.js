@@ -1,12 +1,13 @@
-
+// ✅ हा नवीन कोड वापरा (Railway URL सह)
 const API_BASE_URL = (
     window.location.hostname === "localhost" || 
     window.location.hostname === "127.0.0.1" || 
     window.location.hostname === "" || 
     window.location.protocol === "file:"
 ) 
-? "http://10.0.2.2:5000/api"  
-: `http://${window.location.hostname}:5000/api`;
+? "https://slvc-clinic-management-production.up.railway.app/api"  // 👈 इथे तुझा रेल्वे URL टाकला आहे
+: "https://slvc-clinic-management-production.up.railway.app/api"; // 👈 सर्व ठिकाणी हाच चालावा म्हणून
+
 
 document.addEventListener("DOMContentLoaded", function () {
     let role = "patient";

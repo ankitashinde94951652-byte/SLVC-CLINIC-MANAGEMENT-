@@ -23,7 +23,7 @@ async function loadPatient() {
   try {
 
     const res = await fetch(
-      "http://10.0.2.2:5000/api/patients/" + id
+      "https://slvc-clinic-management-production.up.railway.app/api/patients/" + id
     );
 
     const p = await res.json();
@@ -47,7 +47,7 @@ async function loadPatient() {
 
     if (p.photo) {
       document.getElementById("photo").src =
-        "http://10.0.2.2:5000" + p.photo;
+        "https://slvc-clinic-management-production.up.railway.app/api" + p.photo;
     }
 
   } catch (err) {

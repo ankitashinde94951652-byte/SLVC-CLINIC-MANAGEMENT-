@@ -79,7 +79,7 @@ exports.createAppointment = async (req, res) => {
 
 
 // GET ALL APPOINTMENTS
-exports.getAllAppointments = async (req,res)=>{
+exports.getAllappo = async (req,res)=>{
 
 try{
 
@@ -102,7 +102,7 @@ message:"Server error"
 };
 
 // GET TODAY APPOINTMENTS
-exports.getTodayAppointments = async (req, res) => {
+exports.getTodayappo = async (req, res) => {
 
   try {
 
@@ -128,7 +128,7 @@ exports.getTodayAppointments = async (req, res) => {
 
 
 // UPDATE STATUS
-exports.updateAppointmentStatus = async (req, res) => {
+exports.updateappoStatus = async (req, res) => {
 
   try {
 

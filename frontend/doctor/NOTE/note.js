@@ -8,7 +8,7 @@ const editId = localStorage.getItem("editNoteId");
 
 if(editId){
 
-fetch(`http://10.0.2.2:5000/api/notes/${editId}`)
+fetch(`https://slvc-clinic-management-production.up.railway.app/api/notes/${editId}`)
 
 .then(res=>res.json())
 
@@ -36,12 +36,12 @@ return;
 
 }
 
-let url="http://10.0.2.2:5000/api/notes/create";
+let url="https://slvc-clinic-management-production.up.railway.app/api/notes/create";
 let method="POST";
 
 if(editId){
 
-url=`http://10.0.2.2:5000/api/notes/${editId}`;
+url=`https://slvc-clinic-management-production.up.railway.app/api/notes/${editId}`;
 method="PUT";
 
 }

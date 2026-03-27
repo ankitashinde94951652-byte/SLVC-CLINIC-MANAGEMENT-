@@ -13,7 +13,7 @@ const notesListDiv = document.getElementById("notesList");
 
 async function loadNotes(){
 
-const res = await fetch("http://10.0.2.2:5000/api/notes");
+const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/notes");
 
 const data = await res.json();
 
@@ -72,7 +72,7 @@ async function deleteNote(id){
 
 if(!confirm("Delete note?")) return;
 
-await fetch(`http://10.0.2.2:5000/api/notes/${id}`,{
+await fetch(`http://:5000/api/notes/${id}`,{
 method:"DELETE"
 });
 
