@@ -2,7 +2,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 if(!user){
 alert("Please login first");
-window.location.href="../login page/login.html";
+window.location.href="login page/login.html";
 }
 
 /* PATIENT VIEW */
@@ -29,7 +29,7 @@ return;
 
 if(user.role==="patient"){
 
-window.location.href="../profile/profile.html?id="+user.id;
+window.location.href="profile/profile.html?id="+user.id;
 
 }
 
@@ -39,7 +39,7 @@ alert("Doctor does not have profile page");
 
 }
 
-}
+
 
 
 // APPOINTMENT CLICK
@@ -49,7 +49,7 @@ if(!user){
 
 alert("Login required");
 
-window.location.href="../login/login.html";
+window.location.href="login/login.html";
 
 return;
 
@@ -57,13 +57,13 @@ return;
 
 if(user.role==="patient"){
 
-window.location.href="../appoinm/book.html";
+window.location.href="appoinm/book.html";
 
 }
 
 else{
 
-window.location.href="../doctor/calendar.html";
+window.location.href="doctor/calendar.html";
 
 }
 
@@ -77,6 +77,6 @@ localStorage.removeItem("user");
 
 localStorage.removeItem("token");
 
-window.location.href="../login/login.html";
+window.location.href="login/login.html";
 
 }

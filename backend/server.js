@@ -1,23 +1,22 @@
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors"); // ✅ एकदाच Declare केलं आहे
 const path = require("path");
-const cron = require('node-cron'); // Moved to top
+const cron = require('node-cron');
 require("dotenv").config();
 
-// 1. Import database and routes ONLY ONCE
+// ================= 1. IMPORT CONFIG & ROUTES =================
 const db = require("./config/db"); 
 const authRoutes = require("./routes/authRoutes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./config/swagger");
-const { sendSMS, sendWhatsApp } = require('./services/twilio.service'); // Check these paths!
-const { messages } = require('./services/messageTemplates');
+// खात्री करा की खालील फाईल्स तुझ्या प्रोजेक्टमध्ये आहेत, नसल्यास या ओळी कमेंट करा (//)
+// const { sendSMS, sendWhatsApp } = require('./services/twilio.service'); 
+// const { messages } = require('./services/messageTemplates');
 
 const app = express();
 
-// ================= MIDDLEWARE =================
-const cors = require('cors');
-app.use(cors()); // हे बॅकएंडला कोणत्याही फोनवरून येणाऱ्या रिक्वेस्ट स्वीकारण्याची परवानगी देते.
-
+// ================= 2. MIDDLEWARE =================
+app.use(cors()); // ✅ आता इथे पुन्हा 'const' वापरलेलं नाही, त्यामुळे एरर येणार नाही
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
@@ -25,7 +24,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.get("/", (req, res) => res.send("SLVC Clinic Backend Running ✅"));
 app.get("/ping", (req, res) => res.send("SERVER OK"));
 
-// ================= API ROUTES =================
+// ================= 3. API ROUTES =================
 app.use("/api", authRoutes); 
 app.use("/api/appointments", require("./routes/appointmentRoute"));
 app.use("/api/patients", require("./routes/patientRoutes"));
@@ -43,13 +42,10 @@ app.use("/api/reports", require("./routes/reportRoute"));
 app.use("/api/stories", require("./routes/storyRoute"));
 app.use("/api/prescriptions", require("./routes/prescriptionRoutes"));
 
-// ================= SWAGGER =================
+// ================= 4. SWAGGER =================
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// ================= CRON JOB LOGIC =================
-// Note: I am placing the cron here since you added it. 
-// Remove 'require("./cron/reminderCron")' if you put the code here.
-
+// ================= 5. CRON JOB LOGIC =================
 cron.schedule('* * * * *', async () => {
     console.log("⏰ Running reminder cron job...");
     try {
@@ -58,16 +54,13 @@ cron.schedule('* * * * *', async () => {
             FROM appointments 
             WHERE status='Confirmed' AND app_time > NOW()
         `);
-        // ... (Your loop logic remains the same)
-        for(const row of rows) {
-             // Cron logic here...
-        }
+        // तुमची पुढची लूप लॉजिक इथे सुरू होईल
     } catch(err) {
         console.error("❌ Reminder Error:", err.message);
     }
 });
 
-// ================= TEST ROUTES =================
+// ================= 6. TEST ROUTES =================
 app.get("/test-db", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT 1 + 1 AS result");
@@ -77,18 +70,17 @@ app.get("/test-db", async (req, res) => {
   }
 });
 
-// ================= ERROR HANDLER =================
-const errorMiddleware = require("./middleware/error.middleware");
-app.use(errorMiddleware);
+// ================= 7. ERROR HANDLER =================
+// जर ही फाईल नसेल तर एरर येईल, खात्री करून घ्या
+try {
+    const errorMiddleware = require("./middleware/error.middleware");
+    app.use(errorMiddleware);
+} catch (e) {
+    console.log("⚠️ Error middleware not found, skipping...");
+}
 
-// ================= START SERVER =================
+// ================= 8. START SERVER =================
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server is running on port ${PORT}`);
-});
-
-server.on('error', (e) => {
-  if (e.code === 'EADDRINUSE') {
-    console.error(`❌ Port ${PORT} is already in use.`);
-  }
 });

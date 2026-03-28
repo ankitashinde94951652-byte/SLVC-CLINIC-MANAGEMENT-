@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SLVC Clinic Login</title>
+<link rel="stylesheet" href="login.css">
+
+<!-- ✅ FONT AWESOME -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="login-container">
+  <h1>WELCOME TO</h1>
+  <img class="logo" src="SLVC-logo.png">
+  <h2>Login</h2>
+
+ <form id="loginForm" onsubmit="return false;">
+
+    <input type="text" id="username" placeholder="Username" required>
+
+    <div class="password-container">
+      <input type="password" id="password" placeholder="Password" required>
+      <i class="fa-regular fa-eye eye-icon" id="togglePassword"></i>
+    </div>
+
+    <div class="roleBox">
+      <button type="button" id="patientBtn" class="role active">Patient</button>
+      <button type="button" id="doctorBtn" class="role">Doctor</button>
+    </div>
+
+    <input type="submit" value="Login">
+
+  </form>
+</div>
+
+<script src="login.js"></script>
+
+</body>
+</html>

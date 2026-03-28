@@ -4,7 +4,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 if(!user){
 alert("Please login first");
-window.location.href="../login/login.html";
+window.location.href="login/login.html";
 return;
 }
 
@@ -32,7 +32,7 @@ if(doctorPages.length>0){
 
 alert("Doctor access only");
 
-window.location.href="../HOME/index.html";
+window.location.href="HOME/index.html";
 
 }
 

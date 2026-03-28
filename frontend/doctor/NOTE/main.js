@@ -4,7 +4,7 @@ if(!user || user.role !== "doctor"){
 
 alert("Doctor access only");
 
-window.location.href="../HOME/index.html";
+window.location.href="HOME/index.html";
 
 }
 

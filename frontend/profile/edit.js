@@ -2,7 +2,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 if (!user || user.role !== "patient") {
   alert("Access denied");
-  window.location.href = "../HOME/index.html";
+  window.location.href = "HOME/index.html";
 }
 
 const id = user.id;
