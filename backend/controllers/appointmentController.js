@@ -6,7 +6,7 @@ const CLINIC_NUMBER = "+919999999999";
 
 
 // CREATE APPOINTMENT
-exports.createAppointment = async (req, res) => {
+exports.createappo = async (req, res) => {
 
   try {
 
@@ -230,7 +230,7 @@ exports.updateQueueStatus = async (req, res) => {
 
 };
 
-exports.deleteAppointment = async (req, res) => {
+exports.deleteappo = async (req, res) => {
 
 try {
 
