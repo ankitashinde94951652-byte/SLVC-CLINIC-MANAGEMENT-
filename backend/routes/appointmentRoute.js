@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  createAppointment,
+  createappo,
   getAllappo,
   getTodayappo,
   updateappoStatus,
-  deleteAppointment,
+  deleteappo,
   getAvailableSlots,
   getByPatient,
   getPatientHistory,
@@ -15,32 +15,15 @@ const {
 
 const { protect, role } = require("../middleware/authMiddleware");
 
-
-// CREATE APPOINTMENT
-router.post("/", createAppointment);
-
-// GET ALL
+// लक्ष द्या: इथे path "/" आहे कारण server.js मध्ये आधीच "/api/appointments" वापरले आहे
+router.post("/", createappo);
 router.get("/", getAllappo);
-
-// TODAY APPOINTMENTS
 router.get("/today", protect, getTodayappo);
-
-// AVAILABLE SLOTS
 router.get("/slots", getAvailableSlots);
-
-// PATIENT APPOINTMENTS
 router.get("/patient/:patientId", protect, getByPatient);
-
-// PATIENT HISTORY
 router.get("/history/:id", protect, getPatientHistory);
-
-// UPDATE STATUS
 router.put("/status/:id", protect, updateappoStatus);
-
-// UPDATE QUEUE
 router.put("/queue/:id", protect, updateQueueStatus);
-
-// DELETE APPOINTMENT (KEEP LAST)
-router.delete("/:id", protect, role("admin"), deleteAppointment);
+router.delete("/:id", protect, role("admin"), deleteappo);
 
 module.exports = router;

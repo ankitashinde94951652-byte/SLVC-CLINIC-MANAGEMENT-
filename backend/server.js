@@ -1,5 +1,5 @@
 const express = require("express");
-const cors = require("cors"); // ✅ एकदाच Declare केलं आहे
+const cors = require("cors");
 const path = require("path");
 const cron = require('node-cron');
 require("dotenv").config();
@@ -9,78 +9,42 @@ const db = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./config/swagger");
-// खात्री करा की खालील फाईल्स तुझ्या प्रोजेक्टमध्ये आहेत, नसल्यास या ओळी कमेंट करा (//)
-// const { sendSMS, sendWhatsApp } = require('./services/twilio.service'); 
-// const { messages } = require('./services/messageTemplates');
 
 const app = express();
 
 // ================= 2. MIDDLEWARE =================
-app.use(cors()); // ✅ आता इथे पुन्हा 'const' वापरलेलं नाही, त्यामुळे एरर येणार नाही
+app.use(cors()); 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
-// Basic Health Checks
+// Health Checks
 app.get("/", (req, res) => res.send("SLVC Clinic Backend Running ✅"));
-app.get("/ping", (req, res) => res.send("SERVER OK"));
 
 // ================= 3. API ROUTES =================
 app.use("/api", authRoutes); 
-app.use("/api/appointments", require("./routes/appointmentRoute"));
+app.use("/api/appointments", require("./routes/appointmentRoute")); // हा राउट आता खालील नवीन कोड वापरेल
 app.use("/api/patients", require("./routes/patientRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/sms", require("./routes/smsRoute"));
-app.use("/api/whatsapp", require("./routes/whatsappRoute"));
 app.use("/api/slots", require("./routes/slotRoute"));
-app.use("/api/photos", require("./routes/photoRoute"));
-app.use("/api/tokens", require("./routes/tokenRoute"));
 app.use("/api/doctor", require("./routes/doctorRoute"));
-app.use("/api/surgery", require("./routes/surgeryRoute"));
-app.use("/api/analytics", require("./routes/analyticsRoute"));
-app.use("/api/notes", require("./routes/noteRoute"));
-app.use("/api/reports", require("./routes/reportRoute"));
-app.use("/api/stories", require("./routes/storyRoute"));
-app.use("/api/prescriptions", require("./routes/prescriptionRoutes"));
 
-// ================= 4. SWAGGER =================
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-// ================= 5. CRON JOB LOGIC =================
+// ================= 4. CRON JOB (REMARK: 'appo' टेबल वापरला आहे) =================
 cron.schedule('* * * * *', async () => {
     console.log("⏰ Running reminder cron job...");
     try {
         const [rows] = await db.query(`
             SELECT appid, phone, app_time, reminder_5h, reminder_1h
-            FROM appointments 
+            FROM appo 
             WHERE status='Confirmed' AND app_time > NOW()
         `);
-        // तुमची पुढची लूप लॉजिक इथे सुरू होईल
+        // रिमांडर लॉजिक इथे सुरू राहील
     } catch(err) {
         console.error("❌ Reminder Error:", err.message);
     }
 });
 
-// ================= 6. TEST ROUTES =================
-app.get("/test-db", async (req, res) => {
-  try {
-    const [rows] = await db.query("SELECT 1 + 1 AS result");
-    res.json({ message: "Database is working!", data: rows });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ================= 7. ERROR HANDLER =================
-// जर ही फाईल नसेल तर एरर येईल, खात्री करून घ्या
-try {
-    const errorMiddleware = require("./middleware/error.middleware");
-    app.use(errorMiddleware);
-} catch (e) {
-    console.log("⚠️ Error middleware not found, skipping...");
-}
-
-// ================= 8. START SERVER =================
-const PORT = process.env.PORT || 5000;
+// ================= 5. START SERVER =================
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server is running on port ${PORT}`);
 });
