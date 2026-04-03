@@ -33,7 +33,12 @@ body{
     text-decoration:none;
     font-weight:600;
 }
-
+.primary-btn {
+    position: relative;
+    z-index: 9999 !important;
+    cursor: pointer;
+    padding: 15px; /* Touch area vadhva */
+}
 /* MAIN */
 .wrapper{
     max-width:95%;
