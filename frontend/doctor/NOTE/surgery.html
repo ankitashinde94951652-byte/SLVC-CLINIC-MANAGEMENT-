@@ -36,8 +36,11 @@ const STORAGE_KEY="surgeries";
 
 let surgeries=JSON.parse(localStorage.getItem(STORAGE_KEY))||[];
 
-let editIndex=localStorage.getItem("editSurgeryIndex");
-let viewIndex=localStorage.getItem("viewSurgeryIndex");
+let editIndex = localStorage.getItem("editSurgeryIndex");
+let viewIndex = localStorage.getItem("viewSurgeryIndex");
+
+editIndex = editIndex !== null ? parseInt(editIndex) : null;
+viewIndex = viewIndex !== null ? parseInt(viewIndex) : null;
 
 document.addEventListener("DOMContentLoaded",()=>{
 
@@ -101,7 +104,6 @@ title.innerText="Add Surgery";
 
 
 /* SAVE SURGERY */
-
 async function saveSurgery() {
     const name = document.getElementById("procedureName").value.trim();
     const patient = document.getElementById("patientName").value.trim();
@@ -119,35 +121,43 @@ async function saveSurgery() {
         sname: name,
         sdate: date,
         hospname: hospital,
-        notes: note,
-        sid: null // Doctor level surgery sathi null
+        notes: note
     };
 
-    /* SAVE DATABASE */
-try {
-    console.log("Sending data to DB:", surgeryData); // Check kara data kay jatoय
-    
-    const response = await fetch("https://slvc-clinic-management-production.up.railway.app/api/surgery/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(surgeryData)
-    });
+    try {
+        const response = await fetch("https://slvc-clinic-management-production.up.railway.app/api/surgery/create", {
+            method: "POST",
+            mode: "cors",
+            credentials: "omit",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(surgeryData)
+        });
 
-    const result = await response.json();
-    console.log("Server Response:", result); // Response check kara
+        const result = await response.json();
 
-    if (result.success) {
-        alert("Surgery saved to DB! ✅");
+        console.log("API Response:", result);
+
+        if (response.ok && result.success) {
+            alert("Surgery Saved Successfully ✅");
+            window.location.href = "surgery-main.html";
+        } else {
+            alert("Error: " + (result.message || "Unknown error"));
+        }
+
+    } catch (err) {
+        console.error("Network Error:", err);
+
+        alert("Offline save only ⚠️");
+
+        let surgeryLocal = { name, patient, hospital, note, date };
+        surgeries.push(surgeryLocal);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(surgeries));
+
         window.location.href = "surgery-main.html";
-    } else {
-        alert("Server Error: " + result.message);
     }
-} catch (err) {
-    console.error("Fetch Error:", err);
-    alert("Network Error: Backend connect hot nahiye."); 
 }
-}
-
 </script>
 
 </body>

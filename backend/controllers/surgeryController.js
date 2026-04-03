@@ -1,24 +1,23 @@
 const db = require('../config/db');
 
-/* CREATE SURGERY */
-/* CREATE SURGERY */
 exports.createSurgery = async (req, res) => {
   try {
+    console.log("Incoming Data:", req.body); // 👈 इथे add कर
+
     const { ptname, sname, sdate, hospname, notes } = req.body;
 
-    // sid insert karu naka, to auto-increment hoto
     await db.query(
       "INSERT INTO surgery (ptname, sname, sdate, hospname, notes) VALUES (?,?,?,?,?)",
       [ptname, sname, sdate, hospname, notes]
     );
 
-    res.json({ success: true, message: "Surgery saved successfully ✅" });
+    res.json({ success: true });
+
   } catch (err) {
     console.error("DB Error:", err);
     res.status(500).json({ success: false, message: err.message });
   }
 };
-
 
 
 /* GET ALL */
