@@ -1,4 +1,3 @@
-
 const express = require("express");
 const cors = require('cors');
 const path = require("path");
@@ -13,46 +12,42 @@ const swaggerSpec = require("./config/swagger");
 
 const app = express();
 
-// ================= 2. MIDDLEWARE =================
-// const cors = require("cors");
+// ================= 2. MIDDLEWARE & CORS FIX =================
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',      // Laptop browser sathi
+    'https://localhost',         // Android Capacitor sathi
+    'capacitor://localhost',      // iOS/Android Capacitor sathi
+    'https://slvc-clinic-management-production.up.railway.app' // Railway dashboard sathi
+  ],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
 
-app.use(cors({
-    origin: "*", // or restrict to your domain
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
+app.use(cors(corsOptions));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Health Checks
 app.get("/", (req, res) => res.send("SLVC Clinic Backend Running ✅"));
 
 // ================= 3. API ROUTES =================
-// app.use("/api", authRoutes); 
-// 2. API ROUTES (सर्व राऊट्स इथे असायला हवेत)
 app.use("/api", require("./routes/authRoutes")); 
 app.use("/api/appointments", require("./routes/appointmentRoute"));
 app.use("/api/patients", require("./routes/patientRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/photos", require("./routes/photoRoute")); // हा महत्त्वाचा आहे!
-app.use("/api/stories", require("./routes/storyRoute")); // हा पण!
-app.use("/api/surgery", require("./routes/surgeryRoute"));
+app.use("/api/photos", require("./routes/photoRoute"));
+app.use("/api/stories", require("./routes/storyRoute"));
 app.use("/api/notes", require("./routes/noteRoute"));
+app.use("/api/surgery", require("./routes/surgeryRoute"));
 app.use("/api/prescriptions", require("./routes/prescriptionRoute"));
 
-// हे Routes तुझ्या backend मध्ये असायला हवेत
-app.get('/api/photos', (req, res) => {
-    // तुमचा फोटो डेटा पाठवा
-});
+// Extra placeholders jar garaj asel tar
+app.get('/api/health-check', (req, res) => res.json({ status: "Online" }));
 
-app.get('/api/stories', (req, res) => {
-    // तुमचा स्टोरीज डेटा पाठवा
-});
-
-app.get("/", (req, res) => res.send("SLVC Backend Online ✅"));
-// ================= 4. CRON JOB (REMARK: 'appo' टेबल वापरला आहे) =================
-
+// ================= 4. CRON JOB =================
 cron.schedule('* * * * *', async () => {
     console.log("⏰ Running reminder cron job...");
     try {
@@ -61,7 +56,6 @@ cron.schedule('* * * * *', async () => {
             FROM appo 
             WHERE status='Confirmed' AND app_time > NOW()
         `);
-        // रिमांडर लॉजिक इथे सुरू राहील
     } catch(err) {
         console.error("❌ Reminder Error:", err.message);
     }

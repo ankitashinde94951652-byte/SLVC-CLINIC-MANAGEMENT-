@@ -1,31 +1,39 @@
 const db = require("../config/db");
+const multer = require("multer");
 
+// STORAGE
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "public/uploads/");
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + "_" + file.originalname);
+    }
+});
+
+const upload = multer({ storage });
+
+exports.upload = upload.single("image");
+
+// CREATE
 exports.createPrescription = async (req, res) => {
     try {
-
         console.log("BODY:", req.body);
         console.log("FILE:", req.file);
 
         const { patient, doctor, diagnosis, date } = req.body;
 
-        // Cloudinary image URL
-        const image = req.file ? req.file.path : null;
+        const image = req.file ? "/uploads/" + req.file.filename : null;
 
         await db.query(
             "INSERT INTO prescriptions (patient, doctor, diagnosis, date, image) VALUES (?,?,?,?,?)",
             [patient, doctor, diagnosis, date, image]
         );
 
-        res.json({
-            success: true,
-            message: "Prescription saved"
-        });
+        res.json({ success: true, message: "Prescription saved ✅" });
 
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: err.message
-        });
+        console.error("ERROR:", err);
+        res.status(500).json({ success: false, message: err.message });
     }
 };
