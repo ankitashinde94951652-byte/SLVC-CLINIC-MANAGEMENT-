@@ -1,16 +1,17 @@
 const db = require('../config/db');
 
 /* CREATE SURGERY */
+/* CREATE SURGERY */
 exports.createSurgery = async (req, res) => {
   try {
-    const { sid, ptname, sname, sdate, hospname, notes } = req.body;
+    // Frontend kadun sid/ptid nahi aala tari chalel
+    const { ptname, sname, sdate, hospname, notes } = req.body;
 
-    // ptid nasel tar null insert kara, error deu naka
-    const finalPtid = sid || null;
-
+    // Database query - sid column insert karnyachi garaj nahi (to auto-increment hoto)
+    // Fakt ptname, sname, sdate, hospname, notes pathva
     await db.query(
-      "INSERT INTO surgery (ptid, ptname, sname, sdate, hospname, notes) VALUES (?,?,?,?,?,?)",
-      [sid, ptname, sname, sdate, hospname, notes]
+      "INSERT INTO surgery (ptname, sname, sdate, hospname, notes) VALUES (?,?,?,?,?)",
+      [ptname, sname, sdate, hospname, notes]
     );
 
     res.json({
