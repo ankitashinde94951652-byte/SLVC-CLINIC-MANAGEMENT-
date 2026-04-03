@@ -1,32 +1,25 @@
 const db = require('../config/db');
 
-
 /* CREATE SURGERY */
-
 exports.createSurgery = async (req, res) => {
   try {
-    // ❌ REMOVE THIS LINE: const user = JSON.parse(localStorage.getItem("user"));
+    const { sid, ptname, sname, sdate, hospname, notes } = req.body;
 
-    // ✅ GET EVERYTHING FROM req.body
-    const { ptid, ptname, sname, sdate, hospname, notes } = req.body;
-
-    // Check if ptid exists
-    if (!ptid) {
-      return res.status(400).json({ success: false, message: "Patient ID (ptid) is required" });
-    }
+    // ptid nasel tar null insert kara, error deu naka
+    const finalPtid = sid || null;
 
     await db.query(
       "INSERT INTO surgery (ptid, ptname, sname, sdate, hospname, notes) VALUES (?,?,?,?,?,?)",
-      [ptid, ptname, sname, sdate, hospname, notes]
+      [sid, ptname, sname, sdate, hospname, notes]
     );
 
     res.json({
       success: true,
-      message: "Surgery saved successfully"
+      message: "Surgery saved successfully ✅"
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("DB Error:", err);
     res.status(500).json({ success: false, message: err.message });
   }
 };
