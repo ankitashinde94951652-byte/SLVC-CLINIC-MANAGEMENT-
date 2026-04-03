@@ -1,3 +1,5 @@
+console.log("NOTE JS LOADED ✅");
+
 const noteArea = document.getElementById("noteArea");
 const reminderDate = document.getElementById("reminderDate");
 
