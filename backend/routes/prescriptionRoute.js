@@ -8,8 +8,7 @@ router.post("/", upload, createPrescription);
 router.get("/patient/:id", async (req, res) => {
   try {
     const [rows] = await db.query(
-      "SELECT * FROM prescriptions WHERE ptid = ? ORDER BY date DESC",
-      [req.params.id]
+      "SELECT * FROM prescriptions ORDER BY date DESC"
     );
 
     res.json({
