@@ -140,14 +140,22 @@ async function saveSurgery() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.querySelector(".primary-btn");
-    if(btn) {
-        btn.addEventListener("touchstart", function() {
-            this.style.opacity = "0.5"; // Button dabla gela he kalel
-        });
-        btn.addEventListener("touchend", function() {
-            this.style.opacity = "1";
-            saveSurgery();
+    const saveBtn = document.querySelector(".primary-btn");
+    
+    if (saveBtn) {
+        // Direct event listener lavne mobile sathi jasta secure aahe
+        saveBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            console.log("Button clicked on Android!");
+            
+            // Ithe check kara tumchya function che naav kay aahe
+            if (typeof saveSurgery === "function") {
+                saveSurgery();
+            } else if (typeof saveNote === "function") {
+                saveNote();
+            } else {
+                alert("Error: Save function sapadat nahiye!");
+            }
         });
     }
 });

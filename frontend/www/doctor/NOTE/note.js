@@ -11,7 +11,6 @@ if (editId) {
     .then(res => res.json())
     .then(data => {
         console.log("Loaded Note:", data);
-
         noteArea.value = data.data.note;
         reminderDate.value = data.data.notedate || "";
     })
@@ -40,8 +39,6 @@ async function saveNote() {
     try {
         const response = await fetch(url, {
             method: method,
-            mode: "cors",
-            credentials: "omit",
             headers: {
                 "Content-Type": "application/json"
             },
