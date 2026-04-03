@@ -4,21 +4,15 @@ const db = require('../config/db');
 /* CREATE SURGERY */
 exports.createSurgery = async (req, res) => {
   try {
-    // Frontend kadun sid/ptid nahi aala tari chalel
     const { ptname, sname, sdate, hospname, notes } = req.body;
 
-    // Database query - sid column insert karnyachi garaj nahi (to auto-increment hoto)
-    // Fakt ptname, sname, sdate, hospname, notes pathva
+    // sid insert karu naka, to auto-increment hoto
     await db.query(
       "INSERT INTO surgery (ptname, sname, sdate, hospname, notes) VALUES (?,?,?,?,?)",
       [ptname, sname, sdate, hospname, notes]
     );
 
-    res.json({
-      success: true,
-      message: "Surgery saved successfully ✅"
-    });
-
+    res.json({ success: true, message: "Surgery saved successfully ✅" });
   } catch (err) {
     console.error("DB Error:", err);
     res.status(500).json({ success: false, message: err.message });
