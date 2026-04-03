@@ -63,21 +63,20 @@ const div=document.createElement("div");
 div.className="card";
 
 div.innerHTML=`
-<b>${p.patient_name}</b><br>
+<b>${p.patient}</b><br>
 ${p.diagnosis}<br>
 ${p.date}<br>
 
-${p.image ? `<img src="https://slvc-clinic-management-production.up.railway.app/api${p.image}" width="100%">` : ``}
+${p.image ? `<img src="https://slvc-clinic-management-production.up.railway.app${p.image}" width="100%">` : ``}
 
 <br><br>
 
-<button onclick="openModal('${p.patient_name}','${p.doctor}','${p.diagnosis}','${p.date}','${p.image}')">
+<button onclick="openModal('${p.patient}','${p.doctor}','${p.diagnosis}','${p.date}','${p.image}')">
 View
 </button>
 
 ${isDoctor ? `<button onclick="deletePrescription(${p.id})">Delete</button>` : ``}
 `;
-
 list.appendChild(div);
 
 });
@@ -96,7 +95,7 @@ document.getElementById("m_date").innerText=date;
 const imgTag=document.getElementById("m_img");
 
 if(img){
-imgTag.src="http://:5000"+img;
+imgTag.src="https://slvc-clinic-management-production.up.railway.app" + img;
 imgTag.style.display="block";
 }else{
 imgTag.style.display="none";
