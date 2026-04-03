@@ -37,9 +37,9 @@ app.use("/api/patients", require("./routes/patientRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/photos", require("./routes/photoRoute")); // हा महत्त्वाचा आहे!
 app.use("/api/stories", require("./routes/storyRoute")); // हा पण!
-app.use("/api/notes", require("./routes/noteRoute"));
 app.use("/api/surgery", require("./routes/surgeryRoute"));
-
+app.use("/api/notes", require("./routes/noteRoute"));
+app.use("/api/prescriptions", require("./routes/prescriptionRoute"));
 
 // हे Routes तुझ्या backend मध्ये असायला हवेत
 app.get('/api/photos', (req, res) => {

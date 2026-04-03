@@ -1,26 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const controller = require("../controllers/prescriptionController");
-const { protect, role } = require("../middleware/authMiddleware");
+const { createPrescription } = require("../controllers/prescriptionController");
+const { upload } = require("../config/cloudinary"); // 👈 इथे import
 
-/* GET prescriptions for a patient */
-router.get("/patient/:id", controller.getByPatient);
-/* Doctor only: add prescription */
-router.post(
-  "/",
-  protect,
-  role("doctor"),
-  controller.upload,
-  controller.addPrescription
-);
-
-/* Doctor only: delete prescription */
-router.delete(
-  "/:id",
-  protect,
-  role("doctor"),
-  controller.deletePrescription
-);
+router.post("/", upload.single("image"), createPrescription);
 
 module.exports = router;
