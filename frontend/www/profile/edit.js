@@ -1,3 +1,5 @@
+console.log("EDIT JS LOADED ✅");
+
 const user = JSON.parse(localStorage.getItem("user"));
 
 if (!user || user.role !== "patient") {
@@ -7,61 +9,73 @@ if (!user || user.role !== "patient") {
 
 const id = user.id;
 
+/* LOAD DATA */
 async function load() {
     try {
         const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/patients/" + id);
         const p = await res.json();
 
-        // show data safely
-        document.getElementById("name").value = p.name != null ? p.name : (user.username || "");
-        document.getElementById("age").value = p.age != null ? p.age : "";
-        document.getElementById("gender").value = p.gender != null ? p.gender : "";
-        document.getElementById("phone").value = p.phone != null ? p.phone : "";
-        document.getElementById("history").value = p.medicalHistory != null ? p.medicalHistory : "";
-        document.getElementById("life").value = p.lifestyle != null ? p.lifestyle : "";
+        console.log("PATIENT:", p);
 
-        // set photo preview if exists
-        if (p.photo) {
-            document.getElementById("photoFile").previousElementSibling?.setAttribute("src", "https://slvc-clinic-management-production.up.railway.app/api" + p.photo);
+        document.getElementById("name").value = p.name || user.username || "";
+        document.getElementById("age").value = p.age || "";
+        document.getElementById("gender").value = p.gender || "Male";
+        document.getElementById("phone").value = p.phone || "";
+        document.getElementById("history").value = p.medicalHistory || "";
+        document.getElementById("life").value = p.lifestyle || "";
+
+    } catch (err) {
+        console.log("LOAD ERROR:", err);
+    }
+}
+
+load();
+
+
+/* SAVE PROFILE */
+async function save() {
+
+    const name = document.getElementById("name").value;
+    const age = document.getElementById("age").value;
+    const gender = document.getElementById("gender").value;
+    const phone = document.getElementById("phone").value;
+    const history = document.getElementById("history").value;
+    const life = document.getElementById("life").value;
+
+    const photoInput = document.getElementById("photoFile");
+
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("age", age);
+    formData.append("gender", gender);
+    formData.append("phone", phone);
+    formData.append("medicalHistory", history);
+    formData.append("lifestyle", life);
+
+    if (photoInput.files.length > 0) {
+        formData.append("photo", photoInput.files[0]);
+    }
+
+    try {
+        const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/patients/" + id, {
+            method: "PUT",
+            body: formData
+        });
+
+        const data = await res.json();
+
+        console.log("SAVE RESPONSE:", data);
+
+        if (data.success) {
+            alert("Profile Saved ✅");
+            window.location.href = "profile.html";
+        } else {
+            alert("Error: " + (data.error || "Unknown"));
         }
 
     } catch (err) {
-        console.log(err);
+        console.log("SAVE ERROR:", err);
+        alert("Network Error ❌");
     }
-}
-load();
-
-async function save() {
-  try {
-    const formData = new FormData();
-
-    formData.append("name", document.getElementById("name").value);
-    formData.append("age", document.getElementById("age").value);
-    formData.append("gender", document.getElementById("gender").value);
-    formData.append("phone", document.getElementById("phone").value);
-    formData.append("medicalHistory", document.getElementById("history").value);
-    formData.append("lifestyle", document.getElementById("life").value);
-
-    const photo = document.getElementById("photoFile").files[0];
-    if (photo) formData.append("photo", photo);
-
-    const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/patients/" + id, {
-      method: "PUT",
-      body: formData
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      alert("Profile Saved ✅");
-      // Reload profile page to show updated data
-      window.location.href = "profile.html";
-    } else {
-      alert("Save failed: " + (data.error || "Unknown error"));
-    }
-
-  } catch (err) {
-    console.log(err);
-    alert("Save error");
-  }
 }
