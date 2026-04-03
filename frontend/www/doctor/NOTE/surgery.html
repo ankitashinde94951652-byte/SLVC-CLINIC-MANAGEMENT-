@@ -105,6 +105,7 @@ title.innerText="Add Surgery";
 
 /* SAVE SURGERY */
 async function saveSurgery() {
+
     const name = document.getElementById("procedureName").value.trim();
     const patient = document.getElementById("patientName").value.trim();
     const hospital = document.getElementById("hospitalName").value.trim();
@@ -116,49 +117,51 @@ async function saveSurgery() {
         return;
     }
 
-    // 1. Data Object tayar kara
-    let surgeryLocal = { name, patient, hospital, note, date };
-
-    // 2. Local Storage madhe save kara (Ya mule 'View All' madhe data disel)
-    if (editIndex !== null) {
-        surgeries[editIndex] = surgeryLocal;
-        localStorage.removeItem("editSurgeryIndex");
-    } else {
-        surgeries.push(surgeryLocal);
-    }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(surgeries));
-
-    // 3. Fake Success Alert (Demo sathi)
-    alert("Surgery Saved Successfully! ✅");
-    
-    // 4. Redirect kara
-    window.location.href = "surgery-main.html";
-
-    // टीप: जर तुम्हाला बॅकएंडला सुद्धा डेटा पाठवायचा प्रयत्न करायचा असेल, 
-    // तर वरचा कोड तसाच ठेवून फक्त fetch() ला try-catch मध्ये शांतपणे चालू ठेवा.
-}
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    const saveBtn = document.querySelector(".primary-btn");
-    
-    if (saveBtn) {
-        // Direct event listener lavne mobile sathi jasta secure aahe
-        saveBtn.addEventListener("click", function(e) {
-            e.preventDefault();
-            console.log("Button clicked on Android!");
-            
-            // Ithe check kara tumchya function che naav kay aahe
-            if (typeof saveSurgery === "function") {
-                saveSurgery();
-            } else if (typeof saveNote === "function") {
-                saveNote();
-            } else {
-                alert("Error: Save function sapadat nahiye!");
-            }
+    try {
+        const response = await fetch("https://slvc-clinic-management-production.up.railway.app/api/surgery/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ptname: patient,
+                sname: name,
+                sdate: date,
+                hospname: hospital,
+                notes: note
+            })
         });
+
+        const data = await response.json();
+
+        console.log("Surgery API:", data);
+
+        if (data.success) {
+
+            // ✅ Optional: localStorage pan save (view sathi)
+            let surgeryLocal = { name, patient, hospital, note, date };
+
+            if (editIndex !== null) {
+                surgeries[editIndex] = surgeryLocal;
+                localStorage.removeItem("editSurgeryIndex");
+            } else {
+                surgeries.push(surgeryLocal);
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(surgeries));
+
+            alert("Surgery Saved Successfully ✅");
+            window.location.href = "surgery-main.html";
+
+        } else {
+            alert("Error: " + data.message);
+        }
+
+    } catch (err) {
+        console.error("Network Error:", err);
+        alert("Server error ❌");
     }
-});
+}
 </script>
 
 </body>
