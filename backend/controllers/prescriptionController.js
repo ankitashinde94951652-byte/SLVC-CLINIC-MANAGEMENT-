@@ -18,14 +18,14 @@ exports.upload = upload.single("image");
 // CREATE
 exports.createPrescription = async (req, res) => {
     try {
-        const { patient, doctor, diagnosis, date } = req.body;
+        const { patient, doctor, diagnosis, date, ptid } = req.body;
 
         const image = req.file ? "/uploads/" + req.file.filename : null;
 
         await db.query(
-  "INSERT INTO prescriptions (ptid, patient, doctor, diagnosis, date, image) VALUES (?,?,?,?,?,?)",
-  [ptid, patient, doctor, diagnosis, date, image]
-);
+            "INSERT INTO prescriptions (ptid, patient, doctor, diagnosis, date, image) VALUES (?,?,?,?,?,?)",
+            [ptid, patient, doctor, diagnosis, date, image]
+        );
 
         res.json({ success: true, message: "Prescription saved ✅" });
 
