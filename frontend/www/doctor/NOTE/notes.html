@@ -31,19 +31,15 @@
 </header>
 
 <div class="note-container">
-  <h3><u>NOTE</u></h3>
+  
+<h3>NOTE</h3>
 
-  <textarea id="noteArea" placeholder="Type your notes here..."></textarea>
+<textarea id="noteArea"></textarea>
+<input type="date" id="reminderDate">
 
-  <input type="date" id="reminderDate">
+<button onclick="saveNote()">Save Note</button>
 
-  <div class="btn-row">
-    <button type="button" onclick="saveNote()">Save Note</button>
-    <a href="main.html"><button type="button">View All Notes</button></a>
-  </div>
-</div>
-
+<script src="note.js"></script>
 
 </body>
-<script src="note.js"></script>
 </html>

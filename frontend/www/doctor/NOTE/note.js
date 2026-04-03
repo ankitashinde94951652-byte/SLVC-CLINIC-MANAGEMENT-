@@ -1,44 +1,21 @@
-console.log("NOTE JS LOADED ✅");
+alert("JS LOADED ✅"); // 👈 MUST show
 
 const noteArea = document.getElementById("noteArea");
 const reminderDate = document.getElementById("reminderDate");
 
-const editId = localStorage.getItem("editNoteId");
-
-/* LOAD NOTE */
-if (editId) {
-    fetch(`https://slvc-clinic-management-production.up.railway.app/api/notes/${editId}`)
-    .then(res => res.json())
-    .then(data => {
-        console.log("Loaded Note:", data);
-        noteArea.value = data.data.note;
-        reminderDate.value = data.data.notedate || "";
-    })
-    .catch(err => console.error("Load Error:", err));
-}
-
-/* SAVE NOTE */
 async function saveNote() {
 
     const note = noteArea.value.trim();
     const notedate = reminderDate.value;
 
     if (!note) {
-        alert("Please write a note");
+        alert("Enter note");
         return;
     }
 
-    let url = "https://slvc-clinic-management-production.up.railway.app/api/notes/create";
-    let method = "POST";
-
-    if (editId) {
-        url = `https://slvc-clinic-management-production.up.railway.app/api/notes/${editId}`;
-        method = "PUT";
-    }
-
     try {
-        const response = await fetch(url, {
-            method: method,
+        const response = await fetch("https://slvc-clinic-management-production.up.railway.app/api/notes/create", {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -50,18 +27,16 @@ async function saveNote() {
 
         const data = await response.json();
 
-        console.log("Note API:", data);
+        console.log(data);
 
-        if (response.ok && data.success) {
-            alert("Note saved successfully ✅");
-            localStorage.removeItem("editNoteId");
-            window.location.href = "main.html";
+        if (data.success) {
+            alert("Saved to DB ✅");
         } else {
-            alert("Error: " + (data.message || "Unknown"));
+            alert("Error");
         }
 
-    } catch (err) {
-        console.error("Note Error:", err);
-        alert("Network error ⚠️");
+    } catch (e) {
+        alert("Network error ❌");
+        console.error(e);
     }
 }
