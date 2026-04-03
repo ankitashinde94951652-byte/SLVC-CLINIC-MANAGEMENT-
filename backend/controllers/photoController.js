@@ -16,7 +16,8 @@ exports.uploadPhoto = async (req, res) => {
     }
 
     const beforePhoto = req.files.before[0].path;
-    const afterPhoto = req.files.after[0].path;
+const afterPhoto = req.files.after[0].path;
+
 
    const sql = `
 INSERT INTO photos (ptname, problem, before_photo, after_photo)

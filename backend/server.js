@@ -1,5 +1,6 @@
+
 const express = require("express");
-const cors = require("cors");
+const cors = require('cors');
 const path = require("path");
 const cron = require('node-cron');
 require("dotenv").config();
@@ -13,7 +14,14 @@ const swaggerSpec = require("./config/swagger");
 const app = express();
 
 // ================= 2. MIDDLEWARE =================
-app.use(cors()); 
+// const cors = require("cors");
+
+app.use(cors({
+    origin: "*", // or restrict to your domain
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
@@ -21,14 +29,30 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.get("/", (req, res) => res.send("SLVC Clinic Backend Running ✅"));
 
 // ================= 3. API ROUTES =================
-app.use("/api", authRoutes); 
-app.use("/api/appointments", require("./routes/appointmentRoute")); // हा राउट आता खालील नवीन कोड वापरेल
+// app.use("/api", authRoutes); 
+// 2. API ROUTES (सर्व राऊट्स इथे असायला हवेत)
+app.use("/api", require("./routes/authRoutes")); 
+app.use("/api/appointments", require("./routes/appointmentRoute"));
 app.use("/api/patients", require("./routes/patientRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/slots", require("./routes/slotRoute"));
-app.use("/api/doctor", require("./routes/doctorRoute"));
+app.use("/api/photos", require("./routes/photoRoute")); // हा महत्त्वाचा आहे!
+app.use("/api/stories", require("./routes/storyRoute")); // हा पण!
+app.use("/api/notes", require("./routes/noteRoute"));
+app.use("/api/surgery", require("./routes/surgeryRoute"));
 
+
+// हे Routes तुझ्या backend मध्ये असायला हवेत
+app.get('/api/photos', (req, res) => {
+    // तुमचा फोटो डेटा पाठवा
+});
+
+app.get('/api/stories', (req, res) => {
+    // तुमचा स्टोरीज डेटा पाठवा
+});
+
+app.get("/", (req, res) => res.send("SLVC Backend Online ✅"));
 // ================= 4. CRON JOB (REMARK: 'appo' टेबल वापरला आहे) =================
+
 cron.schedule('* * * * *', async () => {
     console.log("⏰ Running reminder cron job...");
     try {

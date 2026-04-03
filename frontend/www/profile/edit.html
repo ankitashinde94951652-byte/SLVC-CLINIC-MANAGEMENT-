@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Edit Profile</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Edit Patient</h2>
+
+   <label>Profile Photo</label>
+<input type="file" id="photoFile" accept="image/*">
+
+<label>Name</label>
+<input type="text" id="name">
+
+<label>Age</label>
+<input type="number" id="age">
+
+<label>Gender</label>
+<select id="gender">
+<option>Male</option>
+<option>Female</option>
+</select>
+
+<label>Phone</label>
+<input type="text" id="phone">
+
+<label>Medical History</label>
+<textarea id="history"></textarea>
+
+<label>Lifestyle</label>
+<textarea id="life"></textarea>
+
+<button onclick="save()" class="btn">
+Save
+</button>
+
+</div>
+
+<script src="edit.js"></script>
+
+</body>
+</html>

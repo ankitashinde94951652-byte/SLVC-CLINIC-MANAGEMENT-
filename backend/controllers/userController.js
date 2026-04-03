@@ -81,14 +81,22 @@ const loginUser = async (req, res) => {
 
     // Token generate kara aani response dya...
     const user = rows[0];
-    const token = jwt.sign({ id: user.usersid, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" });
+   // Change this:
+// const token = jwt.sign({ id: user.usersid, ...
+// res.json({ ..., user: { id: user.usersid, ...
 
-    res.json({
-      success: true,
-      token,
-      user: { id: user.usersid, username: user.username, role: user.role }
-    });
+// To THIS:
+const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
+res.json({
+  success: true,
+  token,
+  user: { 
+    id: user.id,        // Use 'id', not 'usersid'
+    username: user.username, 
+    role: user.role 
+}
+});
   } catch (err) {
     res.status(500).json({ success: false, message: "Server error" });
   }

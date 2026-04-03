@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Patient Stories</title>
+<link rel="stylesheet" href="story.css">
+</head>
+
+<body>
+
+<header class="topbar">
+<div class="container">
+
+<h1>Patient Stories</h1>
+
+<div class="controls">
+<button class="doctor-only" onclick="location.href='addstory.html'">
++ Add Story
+</button>
+</div>
+
+</div>
+</header>
+
+<main class="container">
+
+<section id="grid" class="grid"></section>
+
+<nav class="pagination">
+<button id="prevBtn" class="btn">Previous</button>
+<span id="pageInfo"></span>
+<button id="nextBtn" class="btn">Next</button>
+</nav>
+
+</main>
+
+<template id="cardTpl">
+
+<article class="card">
+
+<div class="thumb-wrap">
+<div class="thumb"></div>
+</div>
+
+<div class="meta">
+<h3 class="pname"></h3>
+<p class="pdisease"></p>
+<p class="preview"></p>
+</div>
+
+<div class="card-actions">
+<button class="btn danger deleteBtn">Delete</button>
+</div>
+
+</article>
+
+</template>
+
+<script src="story.js"></script>
+
+</body>
+</html>

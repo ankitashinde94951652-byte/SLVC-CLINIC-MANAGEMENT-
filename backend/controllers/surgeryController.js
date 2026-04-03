@@ -3,36 +3,32 @@ const db = require('../config/db');
 
 /* CREATE SURGERY */
 
-exports.createSurgery = async (req,res)=>{
+exports.createSurgery = async (req, res) => {
+  try {
+    // ❌ REMOVE THIS LINE: const user = JSON.parse(localStorage.getItem("user"));
 
-try{
+    // ✅ GET EVERYTHING FROM req.body
+    const { ptid, ptname, sname, sdate, hospname, notes } = req.body;
 
-const {ptname,sname,sdate,hospname,notes} = req.body;
+    // Check if ptid exists
+    if (!ptid) {
+      return res.status(400).json({ success: false, message: "Patient ID (ptid) is required" });
+    }
 
-await db.query(
+    await db.query(
+      "INSERT INTO surgery (ptid, ptname, sname, sdate, hospname, notes) VALUES (?,?,?,?,?,?)",
+      [ptid, ptname, sname, sdate, hospname, notes]
+    );
 
-"INSERT INTO surgery (ptname,sname,sdate,hospname,notes) VALUES (?,?,?,?,?)",
+    res.json({
+      success: true,
+      message: "Surgery saved successfully"
+    });
 
-[ptname,sname,sdate,hospname,notes]
-
-);
-
-res.json({
-success:true,
-message:"Surgery saved successfully"
-});
-
-}catch(err){
-
-console.error(err);
-
-res.status(500).json({
-success:false,
-message:err.message
-});
-
-}
-
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: err.message });
+  }
 };
 
 
@@ -125,3 +121,11 @@ message:err.message
 }
 
 };
+
+
+// const user = JSON.parse(localStorage.getItem("user"));
+// if (!user) {
+//     alert("User session expired. Please login again.");
+//     return;
+// }
+// const ptid = user.id || user.ptid;

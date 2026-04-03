@@ -6,7 +6,7 @@ const CLINIC_NUMBER = "+919999999999";
 
 
 // CREATE APPOINTMENT
-exports.createappo = async (req, res) => {
+exports.createAppointment = async (req, res) => {
 
   try {
 
@@ -79,7 +79,7 @@ exports.createappo = async (req, res) => {
 
 
 // GET ALL APPOINTMENTS
-exports.getAllappo = async (req,res)=>{
+exports.getAllAppointments = async (req,res)=>{
 
 try{
 
@@ -102,7 +102,7 @@ message:"Server error"
 };
 
 // GET TODAY APPOINTMENTS
-exports.getTodayappo = async (req, res) => {
+exports.getTodayAppointments = async (req, res) => {
 
   try {
 
@@ -128,7 +128,7 @@ exports.getTodayappo = async (req, res) => {
 
 
 // UPDATE STATUS
-exports.updateappoStatus = async (req, res) => {
+exports.updateAppointmentStatus = async (req, res) => {
 
   try {
 
@@ -230,7 +230,7 @@ exports.updateQueueStatus = async (req, res) => {
 
 };
 
-exports.deleteappo = async (req, res) => {
+exports.deleteAppointment = async (req, res) => {
 
 try {
 

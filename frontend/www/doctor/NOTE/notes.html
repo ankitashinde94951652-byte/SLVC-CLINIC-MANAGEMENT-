@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Note</title>
+
+<link rel="stylesheet" href="note.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="nav-logo">
+      <div class="logo1"></div>
+    </div>
+
+    <div class="text-box">
+      <h1>Dr. Sagar Satpute</h1>
+      <h3>M.B.B.S. M.D. F.V.I.R. (Mumbai)</h3>
+      <h3>Interventional Radiologist</h3>
+      <h4>Endovascular and Varicose Vein Specialist in Navi Mumbai</h4>
+    </div>
+
+    <div class="nav-logo">
+      <div class="logo2"></div>
+    </div>
+  </div>
+</header>
+
+<div class="note-container">
+  <h3><u>NOTE</u></h3>
+
+  <textarea id="noteArea" placeholder="Type your notes here..."></textarea>
+
+  <input type="date" id="reminderDate">
+
+  <div class="btn-row">
+    <button type="button" onclick="saveNote()">Save Note</button>
+    <a href="main.html"><button type="button">View All Notes</button></a>
+  </div>
+</div>
+
+<script src="note.js"></script>
+</body>
+</html>

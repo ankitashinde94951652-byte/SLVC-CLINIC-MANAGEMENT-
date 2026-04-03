@@ -1,0 +1,277 @@
+:root{
+  --primary:#221d79;
+  --soft:#f4f5ff;
+}
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:#fff;
+  color:#1f2937;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #c1e3e8;
+  margin-top: 1px;
+  padding:6px;
+  text-align: center;
+  line-height:1;
+}
+
+.logo1, .logo2 {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-size: cover;
+}
+
+.logo1 {
+  background-image: url("SLVC-logo.png");
+}
+
+.logo2 {
+  background-image: url("drsagarsatpute.jpg");
+}
+
+.text-box h1 {
+  color: var(--primary);
+  font-size: 1.6rem;
+}
+
+.text-box h3,
+.text-box h4,
+.text-box p {
+  font-size: 0.9rem;
+}
+
+.menu-wrapper {
+  position: relative;
+  width: 100%;
+}
+.menu-icon {
+    position: absolute;   /* absolute ऐवजी fixed */
+    top: 150px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 101;
+}
+
+/* Hidden menu bar */
+.top-right-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+}
+.top-right-menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  text-decoration: none;
+  color: #221d79;
+  border-radius: 8px;
+}
+.top-right-menu a:hover {
+  background: #f0f2ff;
+}
+.top-right-menu img {
+  width: 22px;
+}
+
+
+/* ================= HERO ================= */
+
+.hero {
+  height: 70vh;
+  background-image:
+    linear-gradient(rgba(34,29,121,0.75), rgba(34,29,121,0.75)),
+    url("4uterine.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+  color:#fff;
+}
+
+.hero p {
+  max-width: 700px;
+  margin: auto;
+  color:#fff;
+}
+
+/* ================= LAYOUT ================= */
+
+.container{
+  max-width:1200px;
+  margin:auto;
+}
+
+.split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+  align-items:center;
+  margin:60px 0;
+}
+
+/* CONTENT */
+.content-box{
+  height:auto;
+  width:100%;
+  background:var(--primary);
+  color: #fff;
+  padding:20px;
+  border-radius:30px;
+}
+
+/* IMAGE */
+.image-box {
+  width: 330px;
+  height: 330px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-box img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* ================= CTA ================= */
+
+.cta{
+  text-align:center;
+  background:var(--soft);
+  padding:40px 15px;
+  border-radius:10px;
+}
+
+.btn{
+  display:inline-block;
+  margin-top:20px;
+  background:var(--primary);
+  color:#fff;
+  padding:12px 28px;
+  border-radius:40px;
+  text-decoration:none;
+  font-weight:600;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+  background:var(--primary);
+  color:#fff;
+  text-align:center;
+  padding:18px;
+  font-size:14px;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 900px) {
+
+  .navbar {
+    flex-direction: column;
+    padding: 10px 6px;
+    gap: 5px;
+  }
+
+  .logo1,
+  .logo2 {
+    width: 75px;
+    height: 75px;
+  }
+
+  .text-box h1 {
+    font-size: 1.2rem;
+  }
+
+  .text-box h3,
+  .text-box h4,
+  .text-box p {
+    font-size: 0.75rem;
+  }
+
+  .menu-icon {
+    top: 10px;
+    right: 12px;
+    font-size: 22px;
+  }
+
+  .hero {
+    height:auto;
+    padding:60px 15px;
+    background-size: cover;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .split {
+    grid-template-columns:1fr;
+    gap:30px;
+  }
+
+  .image-box {
+    width: 240px;
+    height: 240px;
+    margin: auto;
+  }
+
+  .content-box {
+    border: radius 20px;
+    width: 382px;
+    padding:18px;
+  }
+
+  ul{
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .image-box {
+    width: 200px;
+    height: 200px;
+  }
+
+  footer {
+    font-size: 12px;
+    padding: 14px;
+  }
+
+}

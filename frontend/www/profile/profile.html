@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Patient Profile</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<img id="photo" src="https://via.placeholder.com/90">
+ 
+<div>
+<h2 id="name">Loading...</h2>
+<p id="age"></p>
+<p id="gender"></p>
+</div>
+
+</div>
+
+<h3>📋 Medical History</h3>
+<p id="history"></p> 
+
+<h3>🏃 Lifestyle</h3>
+<p id="life"></p>
+
+<div class="btnRow">
+
+<button onclick="addPrescription()" class="btn">
++ Add Prescription
+</button>
+
+<button onclick="viewPrescriptions()" class="btn2">
+View Prescriptions
+</button>
+
+<button onclick="editProfile()" class="editBtn">
+Edit / Create Profile
+</button>
+
+</div>
+
+<script src="profile.js" defer></script>
+
+</body>
+</html>

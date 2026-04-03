@@ -1,13 +1,5 @@
-// ✅ हा नवीन कोड वापरा (Railway URL सह)
-const API_BASE_URL = (
-    window.location.hostname === "localhost" || 
-    window.location.hostname === "127.0.0.1" || 
-    window.location.hostname === "" || 
-    window.location.protocol === "file:"
-) 
-? "https://slvc-clinic-management-production.up.railway.app/api"  // 👈 इथे तुझा रेल्वे URL टाकला आहे
-: "https://slvc-clinic-management-production.up.railway.app/api"; // 👈 सर्व ठिकाणी हाच चालावा म्हणून
-
+// ✅ Railway URL कॉन्फिगरेशन
+const API_BASE_URL = "https://slvc-clinic-management-production.up.railway.app/api";
 
 document.addEventListener("DOMContentLoaded", function () {
     let role = "patient";
@@ -38,22 +30,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const usernameValue = document.getElementById("username").value;
         const passwordValue = passwordField.value;
 
-        // Button state handle kara
         const submitBtn = e.target.querySelector('input[type="submit"]');
         const originalBtnValue = submitBtn.value;
         submitBtn.value = "Loading...";
         submitBtn.disabled = true;
 
         try {
-            // ✅ DEBUG ALERT: Emulator madhe konta URL hit hotoय te disel
             const finalLoginUrl = `${API_BASE_URL}/login`;
-            alert("Connecting to: " + finalLoginUrl);
+            // alert("Connecting to: " + finalLoginUrl); // टेस्ट झाल्यावर हे कमेंट करू शकता
 
             const res = await fetch(finalLoginUrl, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     username: usernameValue,
                     password: passwordValue,
@@ -61,21 +49,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
             });
 
-            // // Status check (404, 500 etc)
-            // if (!res.ok) {
-            //     const errorData = await res.json();
-            //     throw new Error(errorData.message || "Server Error");
-            // }
-
             const data = await res.json();
-            console.log("Server Response:", data);
 
             if (data.success) {
-                // Store session data
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("user", JSON.stringify(data.user));
 
-                // Redirect based on role
+                // ✅ Android/Capacitor साठी रिडायरेक्शन पाथ
                 if (data.user.role === "doctor") {
                     window.location.href = "doctor/dashboard.html";
                 } else {
@@ -87,15 +67,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } catch (err) {
             console.error("Connection Error:", err);
-            alert("Server not reachable ❌ \nURL: " + API_BASE_URL + "\nBackend chalu aahe ka check kara!");
+            alert("Server not reachable ❌ \nBackend Railway वर चालू आहे का तपासा!");
         } finally {
-            // Reset button state
             submitBtn.value = originalBtnValue;
             submitBtn.disabled = false;
         }
     });
 
-    // Password Visibility Toggle
     if (togglePassword) {
         togglePassword.onclick = function() {
             passwordField.type = passwordField.type === "password" ? "text" : "password";

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Surgery</title>
+<link rel="stylesheet" href="surgery.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+<img src="SLVC-logo.png" class="logo">
+</nav>
+
+<div class="form-box">
+
+<h3 id="formTitle">Procedure Details</h3>
+
+<input type="text" id="procedureName" placeholder="Procedure Name">
+<input type="text" id="patientName" placeholder="Patient Name">
+<input type="text" id="hospitalName" placeholder="Hospital Name">
+<input type="text" id="noteName" placeholder="Note">
+<input type="date" id="surgeryDate">
+
+<div class="btn-row">
+<button type="button" class="primary-btn" onclick="saveSurgery()">Save</button>
+<a href="surgery-main.html" class="link-btn">View All</a>
+</div>
+
+</div>
+
+<script>
+
+const STORAGE_KEY="surgeries";
+
+let surgeries=JSON.parse(localStorage.getItem(STORAGE_KEY))||[];
+
+let editIndex=localStorage.getItem("editSurgeryIndex");
+let viewIndex=localStorage.getItem("viewSurgeryIndex");
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+const name=document.getElementById("procedureName");
+const patient=document.getElementById("patientName");
+const hospital=document.getElementById("hospitalName");
+const note=document.getElementById("noteName");
+const date=document.getElementById("surgeryDate");
+
+const title=document.getElementById("formTitle");
+
+/* VIEW MODE */
+
+if(viewIndex!==null){
+
+title.innerText="View Surgery";
+
+let s=surgeries[viewIndex];
+
+name.value=s.name;
+patient.value=s.patient;
+hospital.value=s.hospital;
+note.value=s.note;
+date.value=s.date;
+
+name.disabled=true;
+patient.disabled=true;
+hospital.disabled=true;
+note.disabled=true;
+date.disabled=true;
+
+document.querySelector(".primary-btn").style.display="none";
+
+}
+
+/* EDIT MODE */
+
+else if(editIndex!==null){
+
+title.innerText="Edit Surgery";
+
+let s=surgeries[editIndex];
+
+name.value=s.name;
+patient.value=s.patient;
+hospital.value=s.hospital;
+note.value=s.note;
+date.value=s.date;
+
+}
+
+/* ADD MODE */
+
+else{
+
+title.innerText="Add Surgery";
+
+}
+
+});
+
+
+/* SAVE SURGERY */
+
+async function saveSurgery(){
+
+const name=document.getElementById("procedureName").value.trim();
+const patient=document.getElementById("patientName").value.trim();
+const hospital=document.getElementById("hospitalName").value.trim();
+const note=document.getElementById("noteName").value.trim();
+const date=document.getElementById("surgeryDate").value;
+
+if(!name||!patient||!hospital||!date){
+
+alert("Please fill all fields");
+return;
+
+}
+
+let surgery={name,patient,hospital,note,date};
+
+/* EDIT SAVE */
+
+if(editIndex!==null){
+
+surgeries[editIndex]=surgery;
+
+localStorage.removeItem("editSurgeryIndex");
+
+}
+
+/* ADD SAVE */
+
+else{
+
+surgeries.push(surgery);
+
+}
+
+/* SAVE LOCAL */
+
+localStorage.setItem(STORAGE_KEY,JSON.stringify(surgeries));
+
+
+/* SAVE DATABASE */
+
+try{
+
+await fetch("https://slvc-clinic-management-production.up.railway.app/api/surgery/create",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+ptname:patient,
+sname:name,
+sdate:date,
+hospname:hospital,
+notes:note
+
+})
+
+});
+
+}catch(err){
+
+console.log("DB Save Error",err);
+
+}
+
+window.location.href="surgery-main.html";
+
+}
+
+</script>
+
+</body>
+</html>

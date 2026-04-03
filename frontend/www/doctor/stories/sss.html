@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Story Detail</title>
+<link rel="stylesheet" href="story.css">
+</head>
+<body>
+
+<header class="topbar">
+<div class="container">
+<h1 id="title">Story</h1>
+<div class="controls">
+<a class="btn" href="stories.html">← Back</a>
+</div>
+</div>
+</header>
+
+<main class="container narrow">
+<article class="detail-card">
+
+<div id="mediaLarge" class="media-large"></div>
+
+<h2 id="pname"></h2>
+<p id="pdisease" class="pdisease"></p>
+
+<div id="fullStory" class="full-story"></div>
+
+</article>
+</main>
+
+
+<script>
+
+const id=new URLSearchParams(window.location.search).get("id");
+
+async function loadStory(){
+
+try{
+
+const res=await fetch(`https://slvc-clinic-management-production.up.railway.app/api/stories/${id}`);
+const s=await res.json();
+
+if(!s){
+document.getElementById("title").innerText="Story not found";
+return;
+}
+
+document.getElementById("title").innerText=s.name;
+document.getElementById("pname").innerText=s.name;
+document.getElementById("pdisease").innerText=s.disease;
+document.getElementById("fullStory").innerText=s.story_text || "";
+
+const media=document.getElementById("mediaLarge");
+
+/* IMAGE */
+
+if(s.photo_url){
+
+media.innerHTML=`<img src="${s.photo_url}" style="width:100%">`;
+
+}
+
+/* YOUTUBE VIDEO */
+
+/* YOUTUBE VIDEO */
+
+if(s.youtube_url){
+
+let videoId="";
+
+if(s.youtube_url.includes("watch?v=")){
+videoId=s.youtube_url.split("watch?v=")[1];
+}
+
+if(s.youtube_url.includes("youtu.be/")){
+videoId=s.youtube_url.split("youtu.be/")[1];
+}
+
+if(videoId){
+
+media.innerHTML=`
+<iframe width="100%" height="420"
+src="https://www.youtube.com/embed/${videoId}"
+frameborder="0"
+allowfullscreen>
+</iframe>
+`;
+
+}
+
+}
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+loadStory();
+
+</script>
+
+</body>
+</html>

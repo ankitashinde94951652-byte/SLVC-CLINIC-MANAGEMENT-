@@ -1,39 +1,45 @@
 const db = require("../config/db");
 
-/* CREATE NOTE */
+// CREATE
+// CREATE NOTE (Fakt note ani date sathi)
+exports.createNote = async (req, res) => {
+    try {
+        const { note, notedate } = req.body;
+        const finalDate = notedate === "" ? null : notedate;
 
-exports.createNote = async (req,res)=>{
+        // Query madhun ptid kadhun takla aahe
+        const [result] = await db.query(
+            "INSERT INTO notes (note, notedate) VALUES (?, ?)",
+            [note, finalDate]
+        );
 
-try{
-
-const {note,notedate} = req.body;
-
-await db.query(
-
-"INSERT INTO notes (note,notedate) VALUES (?,?)",
-
-[note,notedate]
-
-);
-
-res.json({
-success:true,
-message:"Note saved successfully"
-});
-
-}catch(err){
-
-console.error(err);
-
-res.status(500).json({
-success:false,
-message:err.message
-});
-
-}
-
+        res.json({
+            success: true,
+            message: "Note saved successfully",
+            id: result.insertId
+        });
+    } catch (err) {
+        console.error("Database Error:", err);
+        res.status(500).json({ success: false, message: err.message });
+    }
 };
 
+// UPDATE (Haa missing asu shakto tumcha)
+exports.updateNote = async (req, res) => {
+    try {
+        const { note, notedate } = req.body;
+        const finalDate = notedate === "" ? null : notedate;
+
+        await db.query(
+            "UPDATE notes SET note=?, notedate=? WHERE nid=?",
+            [note, finalDate, req.params.id]
+        );
+
+        res.json({ success: true, message: "Note updated!" });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
 
 /* GET ALL NOTES */
 
@@ -82,26 +88,6 @@ data:rows[0]
 };
 
 
-/* UPDATE NOTE */
-
-exports.updateNote = async (req,res)=>{
-
-const {note,notedate} = req.body;
-
-await db.query(
-
-"UPDATE notes SET note=?, notedate=? WHERE nid=?",
-
-[note,notedate,req.params.id]
-
-);
-
-res.json({
-success:true,
-message:"Note updated"
-});
-
-};
 
 
 /* DELETE NOTE */
