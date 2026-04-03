@@ -23,9 +23,9 @@ exports.createPrescription = async (req, res) => {
         const image = req.file ? "/uploads/" + req.file.filename : null;
 
         await db.query(
-            "INSERT INTO prescriptions (pt_name, doctor, diagnosis, date, image) VALUES (?,?,?,?,?)",
-            [patient, doctor, diagnosis, date, image]
-        );
+    "INSERT INTO prescriptions (patient, doctor, diagnosis, date, image) VALUES (?,?,?,?,?)",
+    [patient, doctor, diagnosis, date, image]
+);
 
         res.json({ success: true, message: "Prescription saved ✅" });
 
