@@ -1,6 +1,6 @@
 const user = JSON.parse(localStorage.getItem("user"));
 
-if (!user) {
+if (!user || !user.id) {
   alert("Login required");
   window.location.href = "../login/login.html";
 }
@@ -10,27 +10,29 @@ const id = user.id;
 // LOAD DATA
 async function load() {
   try {
-    const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/patients/" + id);
+    const res = await fetch(
+      "https://slvc-clinic-management-production.up.railway.app/api/patients/" + id
+    );
+
     const p = await res.json();
 
     document.getElementById("name").value = p.name || "";
     document.getElementById("age").value = p.age || "";
-    document.getElementById("gender").value = p.gender || "Male";
+    document.getElementById("gender").value = p.gender || "";
     document.getElementById("phone").value = p.phone || "";
     document.getElementById("history").value = p.medicalHistory || "";
     document.getElementById("life").value = p.lifestyle || "";
 
   } catch (err) {
-    console.log(err);
+    console.log("LOAD ERROR:", err);
   }
 }
 
 load();
 
-// SAVE
+// SAVE PROFILE
 async function save() {
   try {
-
     const formData = new FormData();
 
     formData.append("name", document.getElementById("name").value);
@@ -61,7 +63,7 @@ async function save() {
     }
 
   } catch (err) {
-    console.log(err);
+    console.log("SAVE ERROR:", err);
     alert("Save failed ❌");
   }
 }
