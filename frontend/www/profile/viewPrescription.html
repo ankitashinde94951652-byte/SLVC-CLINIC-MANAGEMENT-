@@ -32,9 +32,6 @@
 
 <script>
 
-const user = JSON.parse(localStorage.getItem("user"));
-const isDoctor = user && user.role === "doctor";
-
 async function load(){
 
 const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/prescriptions");
@@ -67,8 +64,6 @@ ${p.image ? `<img src="https://slvc-clinic-management-production.up.railway.app$
 <button onclick="openModal('${p.patient}','${p.doctor}','${p.diagnosis}','${p.date}','${p.image}')">
 View
 </button>
-
-${isDoctor ? `<button onclick="deletePrescription(${p.id})">Delete</button>` : ``}
 `;
 
 list.appendChild(div);
@@ -99,25 +94,6 @@ imgTag.style.display="none";
 
 function closeModal(){
 document.getElementById("modal").style.display="none";
-}
-
-async function deletePrescription(pid){
-
-const token = localStorage.getItem("token");
-
-if(!confirm("Delete this prescription?")) return;
-
-await fetch("https://slvc-clinic-management-production.up.railway.app/api/prescriptions/"+pid,{
-method:"DELETE",
-headers:{
-Authorization:"Bearer "+token
-}
-});
-
-alert("Prescription Deleted");
-
-load();
-
 }
 
 load();

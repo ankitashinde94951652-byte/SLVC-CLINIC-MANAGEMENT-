@@ -19,6 +19,13 @@ exports.createPrescription = async (req, res) => {
     try {
         const { ptid, patient, doctor, diagnosis, date } = req.body;
 
+        if (!ptid) {
+            return res.status(400).json({
+                success: false,
+                message: "ptid missing ❌"
+            });
+        }
+
         const image = req.file ? "/uploads/" + req.file.filename : null;
 
         await db.query(
@@ -26,7 +33,7 @@ exports.createPrescription = async (req, res) => {
             [ptid, patient, doctor, diagnosis, date, image]
         );
 
-        res.json({ success: true, message: "Prescription saved ✅" });
+        res.json({ success: true });
 
     } catch (err) {
         console.error(err);

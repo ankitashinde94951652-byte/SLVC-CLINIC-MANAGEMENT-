@@ -44,10 +44,8 @@ document.getElementById("form").addEventListener("submit", async (e) => {
 
     const formData = new FormData(e.target);
 
-    const user = JSON.parse(localStorage.getItem("user"));
-    if(user){
-        formData.append("ptid", user.id); // ✅ इथे add कर
-    }
+    // ✅ TEMP FIX (direct patient id दे)
+    formData.append("ptid", 1);
 
     const token = localStorage.getItem("token");
 
@@ -65,7 +63,7 @@ document.getElementById("form").addEventListener("submit", async (e) => {
         if (res.ok) {
             alert("Prescription Saved ✅");
 
-            // ✅ DIRECT VIEW PAGE ला redirect
+            // redirect
             window.location.href = "viewPrescription.html";
         } else {
             alert("Error: " + data.message);
