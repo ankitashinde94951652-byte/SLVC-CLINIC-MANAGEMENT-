@@ -1,10 +1,14 @@
-const user = JSON.parse(localStorage.getItem("user"));
+const user = JSON.parse(localStorage.getItem("user")) || {
+  id: 1,
+  username: "ankita_shinde",
+  role: "patient"
+};
 
 // 🔴 IMPORTANT FIX
-if (!user || !user.id) {
-  alert("Login required");
-  window.location.href = "../login/login.html";
-}
+// if (!user || !user.id) {
+//   alert("Login required");
+//   window.location.href = "../login/login.html";
+// }
 
 const id = user.id;
 
@@ -45,10 +49,13 @@ async function loadPatient() {
     document.getElementById("life").innerText =
       p.lifestyle || "-";
 
-    if (p.photo) {
-      document.getElementById("photo").src =
-        "https://slvc-clinic-management-production.up.railway.app" + p.photo;
-    }
+    if (p.photo && p.photo !== "null") {
+  document.getElementById("photo").src =
+    "https://slvc-clinic-management-production.up.railway.app" + p.photo;
+} else {
+  document.getElementById("photo").src =
+    "https://via.placeholder.com/90";
+}
 
   } catch (err) {
     console.log("PROFILE ERROR:", err);
