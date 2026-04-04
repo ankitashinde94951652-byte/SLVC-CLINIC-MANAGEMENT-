@@ -32,8 +32,8 @@
 
 <script>
 
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+// const params = new URLSearchParams(window.location.search);
+// const id = params.get("id");
 
 const user = JSON.parse(localStorage.getItem("user"));
 const isDoctor = user && user.role === "doctor";
@@ -44,7 +44,7 @@ alert("Patient ID missing");
 
 async function load(){
 
-const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/prescriptions/patient/"+id);
+const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/prescriptions");
 const result = await res.json();
 
 const data = result.data || [];
