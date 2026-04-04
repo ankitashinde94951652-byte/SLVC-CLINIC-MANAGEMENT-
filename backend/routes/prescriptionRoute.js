@@ -1,3 +1,4 @@
+const db = require("../config/db");
 const express = require("express");
 const router = express.Router();
 
@@ -20,5 +21,4 @@ router.get("/", async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
-
 module.exports = router;

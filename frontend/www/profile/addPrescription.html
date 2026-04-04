@@ -43,6 +43,12 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    if(user){
+        formData.append("ptid", user.id); // ✅ इथे add कर
+    }
+
     const token = localStorage.getItem("token");
 
     try {
@@ -56,10 +62,11 @@ document.getElementById("form").addEventListener("submit", async (e) => {
 
         const data = await res.json();
 
-        console.log(data);
-
         if (res.ok) {
             alert("Prescription Saved ✅");
+
+            // ✅ DIRECT VIEW PAGE ला redirect
+            window.location.href = "viewPrescription.html";
         } else {
             alert("Error: " + data.message);
         }
@@ -70,9 +77,6 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     }
 
 });
-
-const user = JSON.parse(localStorage.getItem("user"));
-formData.append("ptid", user.id);
 </script>
 
 </body>

@@ -32,15 +32,8 @@
 
 <script>
 
-// const params = new URLSearchParams(window.location.search);
-// const id = params.get("id");
-
 const user = JSON.parse(localStorage.getItem("user"));
 const isDoctor = user && user.role === "doctor";
-
-if(!id){
-alert("Patient ID missing");
-}
 
 async function load(){
 
@@ -77,6 +70,7 @@ View
 
 ${isDoctor ? `<button onclick="deletePrescription(${p.id})">Delete</button>` : ``}
 `;
+
 list.appendChild(div);
 
 });

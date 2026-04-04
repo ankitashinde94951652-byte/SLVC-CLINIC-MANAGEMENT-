@@ -15,10 +15,9 @@ const upload = multer({ storage });
 
 exports.upload = upload.single("image");
 
-// CREATE
 exports.createPrescription = async (req, res) => {
     try {
-        const { patient, doctor, diagnosis, date, ptid } = req.body;
+        const { ptid, patient, doctor, diagnosis, date } = req.body;
 
         const image = req.file ? "/uploads/" + req.file.filename : null;
 
