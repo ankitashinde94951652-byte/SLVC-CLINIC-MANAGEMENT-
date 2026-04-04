@@ -7,7 +7,50 @@
 </head>
 
 <body>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+<style>
+    .back-container {
+        position:absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 9999; /* सर्वात वर दिसण्यासाठी */
+        cursor: pointer;
+        width: 35px;
+        height: 35px;
+        /* background: rgba(34, 29, 121, 0.9); क्लिनिक थीम बॅकग्राउंड */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* box-shadow: 0 2px 10px rgba(0,0,0,0.3); */
+        transition: transform 0.2s;
+    }
+
+    .back-container i {
+        color: rgb(119, 77, 177); /* पांढरा रंग दिसायला सोपा पडतो */
+        font-size: 20px; /* तू मागितल्यानुसार साईज ॲडजस्ट केली आहे */
+    }
+
+    .back-container:active {
+        transform: scale(0.8);
+    }
+</style>
+
+<div class="back-container" onclick="goBack()">
+    <i class="fa-solid fa-circle-left"></i> 
+</div>
+
+<script>
+    function goBack() {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            // जर बॅक जाण्यासाठी हिस्ट्री नसेल, तर डॅशबोर्डवर जा
+            window.location.href = "../HOME/index.html"; 
+        }
+    }
+</script>
 <div class="container">
 
 <div class="header">
@@ -16,17 +59,17 @@
  
 <div>
 <h2 id="name">Loading...</h2>
-<p id="age"></p>
-<p id="gender"></p>
+<p id="age">21</p>
+<p id="gender">female</p>
 </div>
 
 </div>
 
 <h3>📋 Medical History</h3>
-<p id="history"></p> 
+<p id="history">Asthama</p> 
 
 <h3>🏃 Lifestyle</h3>
-<p id="life"></p>
+<p id="life">sitting</p>
 
 <div class="btnRow">
 
