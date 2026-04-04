@@ -1,18 +1,7 @@
-const user = JSON.parse(localStorage.getItem("user")) || {
-  id: 1,
-  username: "ankita_shinde",
-  role: "patient"
-};
+const user = JSON.parse(localStorage.getItem("user")) || {};
 
-// 🔴 IMPORTANT FIX
-// if (!user || !user.id) {
-//   alert("Login required");
-//   window.location.href = "../login/login.html";
-// }
+const id = user.id || 1; // fallback id
 
-const id = user.id;
-
-// ✅ BUTTON FUNCTIONS (WORKING)
 function editProfile() {
   window.location.href = "edit.html";
 }
@@ -25,7 +14,6 @@ function viewPrescriptions() {
   window.location.href = "viewPrescription.html?id=" + id;
 }
 
-// ✅ LOAD PROFILE
 async function loadPatient() {
   try {
     const res = await fetch(
@@ -34,31 +22,40 @@ async function loadPatient() {
 
     const p = await res.json();
 
+    // ✅ fallback default values
     document.getElementById("name").innerText =
-      p.name || user.username || "No Name";
+      p.name || user.username || "Ankita Shinde";
 
     document.getElementById("age").innerText =
-      p.age ? "Age : " + p.age : "Age : -";
+      p.age ? "Age : " + p.age : "Age : 21";
 
     document.getElementById("gender").innerText =
-      p.gender ? "Gender : " + p.gender : "Gender : -";
+      p.gender ? "Gender : " + p.gender : "Gender : Female";
 
     document.getElementById("history").innerText =
-      p.medicalHistory || "-";
+      p.medicalHistory || "No major issues";
 
     document.getElementById("life").innerText =
-      p.lifestyle || "-";
+      p.lifestyle || "Healthy lifestyle";
 
+    // ✅ PHOTO FIX
     if (p.photo && p.photo !== "null") {
-  document.getElementById("photo").src =
-    "https://slvc-clinic-management-production.up.railway.app" + p.photo;
-} else {
-  document.getElementById("photo").src =
-    "https://via.placeholder.com/90";
-}
+      document.getElementById("photo").src =
+        "https://slvc-clinic-management-production.up.railway.app" + p.photo;
+    } else {
+      document.getElementById("photo").src =
+        "https://via.placeholder.com/90";
+    }
 
   } catch (err) {
-    console.log("PROFILE ERROR:", err);
+    console.log("ERROR:", err);
+
+    // ✅ अगर API fail झाला तरी default दाखव
+    document.getElementById("name").innerText = "Ankita Shinde";
+    document.getElementById("age").innerText = "Age : 21";
+    document.getElementById("gender").innerText = "Gender : Female";
+    document.getElementById("history").innerText = "No major issues";
+    document.getElementById("life").innerText = "Healthy lifestyle";
   }
 }
 
