@@ -1,38 +1,36 @@
 const user = JSON.parse(localStorage.getItem("user"));
 
-if (!user || user.role !== "patient") {
-  alert("Access denied");
-  window.location.href = "HOME/index.html";
+if (!user) {
+  alert("Login required");
+  window.location.href = "../login/login.html";
 }
 
 const id = user.id;
 
+// LOAD DATA
 async function load() {
-    try {
-        const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/patients/" + id);
-        const p = await res.json();
+  try {
+    const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/patients/" + id);
+    const p = await res.json();
 
-        // show data safely
-        document.getElementById("name").value = p.name != null ? p.name : (user.username || "");
-        document.getElementById("age").value = p.age != null ? p.age : "";
-        document.getElementById("gender").value = p.gender != null ? p.gender : "";
-        document.getElementById("phone").value = p.phone != null ? p.phone : "";
-        document.getElementById("history").value = p.medicalHistory != null ? p.medicalHistory : "";
-        document.getElementById("life").value = p.lifestyle != null ? p.lifestyle : "";
+    document.getElementById("name").value = p.name || "";
+    document.getElementById("age").value = p.age || "";
+    document.getElementById("gender").value = p.gender || "Male";
+    document.getElementById("phone").value = p.phone || "";
+    document.getElementById("history").value = p.medicalHistory || "";
+    document.getElementById("life").value = p.lifestyle || "";
 
-        // set photo preview if exists
-        if (p.photo) {
-            document.getElementById("photoFile").previousElementSibling?.setAttribute("src", "https://slvc-clinic-management-production.up.railway.app/api" + p.photo);
-        }
-
-    } catch (err) {
-        console.log(err);
-    }
+  } catch (err) {
+    console.log(err);
+  }
 }
+
 load();
 
+// SAVE
 async function save() {
   try {
+
     const formData = new FormData();
 
     formData.append("name", document.getElementById("name").value);
@@ -45,23 +43,25 @@ async function save() {
     const photo = document.getElementById("photoFile").files[0];
     if (photo) formData.append("photo", photo);
 
-    const res = await fetch("https://slvc-clinic-management-production.up.railway.app/api/patients/" + id, {
-      method: "PUT",
-      body: formData
-    });
+    const res = await fetch(
+      "https://slvc-clinic-management-production.up.railway.app/api/patients/" + id,
+      {
+        method: "PUT",
+        body: formData
+      }
+    );
 
     const data = await res.json();
 
     if (data.success) {
       alert("Profile Saved ✅");
-      // Reload profile page to show updated data
       window.location.href = "profile.html";
     } else {
-      alert("Save failed: " + (data.error || "Unknown error"));
+      alert("Error: " + data.error);
     }
 
   } catch (err) {
     console.log(err);
-    alert("Save error");
+    alert("Save failed ❌");
   }
 }
